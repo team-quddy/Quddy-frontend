@@ -26,10 +26,13 @@ const ExamItem = ({ exam }: Props) => {
 };
 
 const ExamItemComponent = styled.div`
+  width: 120px;
+
   & > p {
-    margin: 8px 0;
+    margin: 8px 0 0;
     font-size: 14px;
     font-weight: bold;
+    line-height: 16px;
   }
   & > div {
     background-color: var(--color-gray);
