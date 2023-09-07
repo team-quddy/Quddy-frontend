@@ -1,0 +1,52 @@
+[
+  {
+      "title" : "밸런스 게임",
+      "date" : "2023-09-01",
+      "isPublic" : true,
+      "scrap" : 10,
+      "cnt" : 4,
+      "thumbnail" : "https://picsum.photos/240/360",
+      "ref" : "a",
+      "id" : "a"
+  },
+  {
+      "title" : "이상형 월드컵",
+      "date" : "2023-09-01",
+      "isPublic" : true,
+      "scrap" : 100,
+      "cnt" : 10,
+      "thumbnail" : "https://picsum.photos/240/360",
+      "ref" : "b",
+      "id" : "b"
+  },
+  {
+      "title" : "입맛 취향 맞추기",
+      "date" : "2023-09-01",
+      "isPublic" : true,
+      "scrap" : 1000,
+      "cnt" : 4,
+      "thumbnail" : "https://picsum.photos/240/360",
+      "ref" : "c",
+      "id" : "c"
+  },
+  {
+      "title" : "세상에 이렇게 긴 이름도 된다고",
+      "date" : "2023-09-01",
+      "isPublic" : true,
+      "scrap" : 100000,
+      "cnt" : 4,
+      "thumbnail" : "https://picsum.photos/240/360",
+      "ref" : "d",
+      "id" : "d"
+  },
+  {
+      "title" : "최소 1글자 최대 20글자",
+      "date" : "2023-09-01",
+      "isPublic" : false,
+      "scrap" : 0,
+      "cnt" : 4,
+      "thumbnail" : "https://picsum.photos/240/360",
+      "ref" : "e",
+      "id" : "e"
+  }
+]
