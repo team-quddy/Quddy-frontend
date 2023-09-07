@@ -1,0 +1,34 @@
+/* FONTS */
+@font-face {
+  font-family: Pacifico-Regular;
+  src:  url("../assets/fonts/Pacifico-Regular.woff2") format("woff2"),
+        url("../assets/fonts/Pacifico-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: PyeongChang;
+  src:  url("../assets/fonts/PyeongChang-Regular.woff2") format("woff2"),
+        url("../assets/fonts/PyeongChang-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: PyeongChang;
+  src:  url("../assets/fonts/PyeongChang-Bold.woff2") format("woff2"),
+        url("../assets/fonts/PyeongChang-Bold.woff") format("woff");
+  font-weight: bold;
+}
+@font-face {
+  font-family: Hanamdaum;
+  src:  url("../assets/fonts/HANAMDAUM_Body.woff2") format("woff2"),
+        url("../assets/fonts/HANAMDAUM_Body.woff") format("woff");
+}
+@font-face {
+  font-family: Hanamdaum;
+  src:  url("../assets/fonts/HANAMDAUM.woff2") format("woff2"),
+        url("../assets/fonts/HANAMDAUM.woff") format("woff");
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'OAGothic-ExtraBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/OAGothic-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
