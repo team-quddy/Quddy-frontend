@@ -44,6 +44,17 @@
         "nickname": "비가츄"
     },
     {
+        "title" : "세상에 이렇게 긴 이름도 된다고",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 1000000,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "f",
+        "id" : "f",
+        "nickname": "비가츄"
+    },
+    {
         "title" : "최소 1글자 최대 20글자",
         "date" : "2023-09-01",
         "isPublic" : false,
