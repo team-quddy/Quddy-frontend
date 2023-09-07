@@ -65,7 +65,7 @@ const ExamItemComponent = styled.div`
     & > div {
       right: 8px;
       bottom: 8px;
-      font-size: 10px;
+      font-size: 12px;
       color: #ffffff;
       font-weight: bold;
       display: flex;
