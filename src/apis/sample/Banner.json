@@ -1,0 +1,17 @@
+[
+  {
+    "id": "a",
+    "thumbnail": "https://picsum.photos/500/1000",
+    "alt": "테스트 이미지"
+  },
+  {
+    "id": "b",
+    "thumbnail": "https://picsum.photos/500/1000",
+    "alt": "테스트 이미지"
+  },
+  {
+    "id": "c",
+    "thumbnail": "https://picsum.photos/500/1000",
+    "alt": "테스트 이미지"
+  }
+]

@@ -17,3 +17,10 @@ export interface ExamType extends ExamInterface {
 export interface ExamTemplateType extends ExamInterface {
   nickname: string; // 사용자 닉네임
 }
+
+/** 메인화면 배너 정보 */
+export interface BannerType {
+  id: PK;
+  thumbnail: string; // 썸네일
+  alt: string; // 설명
+}
