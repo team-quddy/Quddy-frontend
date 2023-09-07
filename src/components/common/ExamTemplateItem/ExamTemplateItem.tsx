@@ -1,31 +1,38 @@
 import { styled } from "styled-components";
-import { ExamType } from "../../../types/types";
-import { TbLock, TbLockOpen, TbShare2 } from "react-icons/tb";
+import { ExamTemplateType } from "../../../types/types";
+import { TbGitFork } from "react-icons/tb";
 
 interface Props {
-  exam: ExamType;
+  exam: ExamTemplateType;
 }
 
-const ExamItem = ({ exam }: Props) => {
+const ExamTemplateItem = ({ exam }: Props) => {
+  /** 숫자 단위에 맞게 문자열로 변경하는 함수 */
+  const num2str = (n: number): string => {
+    if (n < 1000) return `${n}`;
+    if (n < 10000) return `${(n / 1000).toFixed(1)} K`;
+    if (n < 1000000) return `${(n / 1000).toFixed(0)} K`;
+    if (n < 10000000) return `${(n / 1000000).toFixed(1)} M`;
+    else return `${(n / 1000000).toFixed(0)} M`;
+  };
+
   return (
-    <ExamItemComponent>
+    <ExamTemplateItemComponent>
       <div>
         <img src={exam.thumbnail} />
-        <button>
-          <TbShare2 />
-        </button>
 
         <div>
-          <span>{exam.isPublic ? "공개" : "비공개"}</span>
-          {exam.isPublic ? <TbLockOpen /> : <TbLock />}
+          <span>{num2str(exam.scrap)}</span>
+          <TbGitFork />
         </div>
       </div>
       <p>{exam.title}</p>
-    </ExamItemComponent>
+      <span>{exam.nickname}</span>
+    </ExamTemplateItemComponent>
   );
 };
 
-const ExamItemComponent = styled.div`
+const ExamTemplateItemComponent = styled.div`
   width: 120px;
 
   & > p {
@@ -33,6 +40,9 @@ const ExamItemComponent = styled.div`
     font-size: 14px;
     font-weight: bold;
     line-height: 16px;
+  }
+  & > span {
+    font-size: 12px;
   }
   & > div {
     background-color: var(--color-gray);
@@ -47,24 +57,7 @@ const ExamItemComponent = styled.div`
       z-index: 3;
     }
 
-    /* 공유버튼 */
-    & > button {
-      right: 8px;
-      top: 8px;
-      background: rgba(0, 0, 0, 0.3);
-      border: none;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      padding-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: #ffffff;
-    }
-
-    /* 공개여부 */
+    /* 스크랩 수 */
     & > div {
       right: 8px;
       bottom: 8px;
@@ -77,7 +70,7 @@ const ExamItemComponent = styled.div`
       & svg {
         padding-bottom: 1px;
         margin-left: 4px;
-        font-size: 14px;
+        font-size: 16px;
       }
     }
 
@@ -99,4 +92,4 @@ const ExamItemComponent = styled.div`
   }
 `;
 
-export default ExamItem;
+export default ExamTemplateItem;
