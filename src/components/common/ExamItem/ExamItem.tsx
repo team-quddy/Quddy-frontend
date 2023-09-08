@@ -37,8 +37,8 @@ const ExamItemComponent = styled.div`
   & > div {
     background-color: var(--color-gray);
     position: relative;
-    width: 120px;
-    height: 180px;
+    width: 100%;
+    aspect-ratio: 0.75;
     border-radius: 8px;
     overflow: hidden;
 
