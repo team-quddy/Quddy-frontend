@@ -44,6 +44,7 @@ const Template = () => {
 
 const TemplateComponent = styled.div`
   width: 100%;
+  overflow-x: hidden;
   max-width: 800px;
   min-height: calc(100vh - 48px);
   margin: auto;
