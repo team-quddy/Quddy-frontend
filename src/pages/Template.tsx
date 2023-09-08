@@ -18,7 +18,11 @@ const Template = () => {
       <div>
         <img className="guide-banner" src={GuideBanner} alt="큐디 완벽 가이드 배너" />
         <section>
-          <SearchInput search={text} setSearch={(text) => setOption((pre) => ({ ...pre, text }))} placeholder="asdf" />
+          <SearchInput
+            search={text}
+            setSearch={(text) => setOption((pre) => ({ ...pre, text }))}
+            placeholder="관심있는 키워드를 검색해보세요"
+          />
 
           {/* 헤더 */}
           <div className="header">
@@ -79,17 +83,14 @@ const TemplateComponent = styled.div`
     }
   }
   & section {
-    margin: 12px 8px 20px;
+    margin: 12px 12px 20px;
 
     & h1 {
       font-size: 20px;
       font-weight: bold;
     }
-    & > *:first-child {
-      margin: 0 4px;
-    }
     & .header {
-      padding: 14px 12px 20px;
+      padding: 14px 8px 20px;
       width: 100%;
       display: flex;
       align-items: center;
