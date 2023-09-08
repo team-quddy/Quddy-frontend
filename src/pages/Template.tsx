@@ -13,9 +13,10 @@ const Template = () => {
   return (
     <TemplateComponent>
       <img className="guide-banner" src={GuideBanner} alt="큐디 완벽 가이드 배너" />
-      <SearchInput search={text} setSearch={(text) => setOption((pre) => ({ ...pre, text }))} />
       <section>
-        <div>
+        <SearchInput search={text} setSearch={(text) => setOption((pre) => ({ ...pre, text }))} placeholder="asdf" />
+
+        <div className="header">
           <h1>문제집 템플릿</h1>
           <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort }))} />
         </div>
@@ -24,6 +25,24 @@ const Template = () => {
   );
 };
 
-const TemplateComponent = styled.div``;
+const TemplateComponent = styled.div`
+  & .guide-banner {
+    width: 100%;
+  }
+  & > section {
+    padding: 12px 20px;
+  }
+  & h1 {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  & .header {
+    margin-top: 14px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
 
 export default Template;
