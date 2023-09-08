@@ -19,6 +19,23 @@ const SearchSorter = ({ option, setOption }: Props) => {
   );
 };
 
-const SearchSorterComponent = styled.div``;
+const SearchSorterComponent = styled.div`
+  & button {
+    margin-left: 8px;
+    background: none;
+    border: 2px solid var(--color-primary);
+    border-radius: 16px;
+    padding: 2px 12px 3px;
+
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--color-primary);
+
+    &.active {
+      background-color: var(--color-primary);
+      color: var(--color-theme);
+    }
+  }
+`;
 
 export default SearchSorter;
