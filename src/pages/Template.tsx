@@ -8,10 +8,33 @@ import SearchSorter from "../components/common/Search/SearchSorter";
 import Footer from "../components/common/Footer/Footer";
 import Loading from "../components/common/Loading/Loading";
 import ExamTemplateItem from "../components/common/ExamTemplateItem/ExamTemplateItem";
+import { useEffect, useState } from "react";
+
+interface Data {
+  currentPage: number;
+  list: ExamTemplateType[];
+}
 
 const Template = () => {
+  const [data, setData] = useState<Data>({
+    currentPage: 1,
+    list: [],
+  });
   const [option, setOption, query] = useSearch<ExamTemplateType[]>(getExamTemplateList);
   const { text, sort } = option;
+
+  // 페이지 변경에 따른 요청 갱신
+  useEffect(() => {
+    if (data.currentPage == 1) {
+      setData((pre) => ({ ...pre, list: [] }));
+    }
+    setOption((pre) => ({ ...pre, page: data.currentPage }));
+  }, [data.currentPage]);
+
+  // 요청 결과를 list에 저장
+  useEffect(() => {
+    if (query.data) setData((pre) => ({ ...pre, list: [...pre.list, ...query.data] }));
+  }, [query.data]);
 
   return (
     <TemplateComponent>
@@ -32,7 +55,7 @@ const Template = () => {
 
           {/* 템플릿 목록 */}
           <div className="list">
-            {query.data?.map((item) => (
+            {data.list.map((item) => (
               <ExamTemplateItem key={item.id} exam={item} />
             ))}
           </div>
