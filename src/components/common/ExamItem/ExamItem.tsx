@@ -54,13 +54,13 @@ const ExamItemComponent = styled.div`
       background: rgba(0, 0, 0, 0.3);
       border: none;
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 32px;
+      height: 32px;
       padding-bottom: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
+      font-size: 28px;
       color: #ffffff;
     }
 
