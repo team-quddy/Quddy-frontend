@@ -3,12 +3,14 @@ import { styled } from "styled-components";
 const Loading = () => {
   return (
     <LoadingComponent>
-      <circle cx="50%" cy="50%" r="24" fill="none" strokeWidth="8" strokeLinecap="round" />
+      <svg>
+        <circle cx="50%" cy="50%" r="24" fill="none" strokeWidth="8" strokeLinecap="round" />
+      </svg>
     </LoadingComponent>
   );
 };
 
-const LoadingComponent = styled.svg`
+const LoadingComponent = styled.div`
   @keyframes spin {
     0% {
       transform: rotate(0);
@@ -23,10 +25,15 @@ const LoadingComponent = styled.svg`
     }
   }
   width: 100%;
-  opacity: 0.5;
-  stroke-dasharray: 150;
-  stroke: var(--color-primary);
-  animation: spin 1500ms linear infinite;
+  height: 160px;
+  overflow: hidden;
+  & > svg {
+    width: 100%;
+    opacity: 0.5;
+    stroke-dasharray: 150;
+    stroke: var(--color-primary);
+    animation: spin 1500ms linear infinite;
+  }
 `;
 
 export default Loading;
