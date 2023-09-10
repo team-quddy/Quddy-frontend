@@ -64,5 +64,105 @@
         "ref" : "e",
         "id" : "e",
         "nickname": "비가츄"
+    },
+    
+    {
+        "title" : "밸런스 게임",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 10,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "aa",
+        "id" : "aa",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "이상형 월드컵",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 100,
+        "cnt" : 10,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "ab",
+        "id" : "ab",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "입맛 취향 맞추기",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 1000,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "ac",
+        "id" : "ac",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "세상에 이렇게 긴 이름도 된다고",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 100000,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "ad",
+        "id" : "ad",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "세상에 이렇게 긴 이름도 된다고",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 1000000,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "af",
+        "id" : "af",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "최소 1글자 최대 20글자",
+        "date" : "2023-09-01",
+        "isPublic" : false,
+        "scrap" : 0,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "ae",
+        "id" : "ae",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "밸런스 게임",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 10,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "ba",
+        "id" : "ba",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "이상형 월드컵",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 100,
+        "cnt" : 10,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "bb",
+        "id" : "bb",
+        "nickname": "비가츄"
+    },
+    {
+        "title" : "입맛 취향 맞추기",
+        "date" : "2023-09-01",
+        "isPublic" : true,
+        "scrap" : 1000,
+        "cnt" : 4,
+        "thumbnail" : "https://picsum.photos/240/360",
+        "ref" : "bc",
+        "id" : "bc",
+        "nickname": "비가츄"
     }
 ]
