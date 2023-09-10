@@ -25,7 +25,7 @@ const SearchSorterComponent = styled.div`
     background: none;
     border: 2px solid var(--color-primary);
     border-radius: 16px;
-    padding: 2px 12px 3px;
+    padding: 3px 12px 2px;
 
     font-weight: bold;
     font-size: 14px;
