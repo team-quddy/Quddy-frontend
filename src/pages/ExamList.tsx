@@ -1,20 +1,22 @@
 import { styled } from "styled-components";
 import GuideBanner from "../assets/imgs/guide_banner.png";
 import useSearch from "../hooks/useSearch";
-import { ExamTemplateType } from "../types/types";
-import { getExamTemplateList } from "../apis/Setter";
+import { ExamType } from "../types/types";
+import { getExamList } from "../apis/Setter";
 import SearchInput from "../components/common/Search/SearchInput";
 import SearchSorter from "../components/common/Search/SearchSorter";
 import Footer from "../components/common/Footer/Footer";
 import Loading from "../components/common/Loading/Loading";
-import ExamTemplateItem from "../components/common/ExamTemplateItem/ExamTemplateItem";
 import { useEffect, useState } from "react";
 import { ResponseListType } from "../types/response";
 import { throttle } from "lodash";
+import ExamItem from "../components/common/ExamItem/ExamItem";
+import { TbPlus } from "react-icons/tb";
+import { NavLink } from "react-router-dom";
 
-const Template = () => {
-  const [list, setList] = useState<ExamTemplateType[]>([]);
-  const [option, setOption, query] = useSearch<ResponseListType<ExamTemplateType>>(getExamTemplateList);
+const ExamList = () => {
+  const [list, setList] = useState<ExamType[]>([]);
+  const [option, setOption, query] = useSearch<ResponseListType<ExamType>>(getExamList);
   const { text, sort } = option;
 
   // 검색 결과 변경 시 리스트 초기화
@@ -49,19 +51,24 @@ const Template = () => {
           <SearchInput
             search={text}
             setSearch={(text) => setOption((pre) => ({ ...pre, text, page: 1 }))}
-            placeholder="관심있는 키워드를 검색해보세요"
+            placeholder="문제집명을 검색해 빠르게 찾아보세요"
           />
 
           {/* 헤더 */}
           <div className="header">
-            <h1>문제집 템플릿</h1>
+            <div>
+              <h1>MY 문제집</h1>
+              <NavLink to="/edit">
+                <TbPlus />
+              </NavLink>
+            </div>
             <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, page: 1 }))} />
           </div>
 
           {/* 템플릿 목록 */}
           <div className="list">
             {list.map((item) => (
-              <ExamTemplateItem key={item.id} exam={item} />
+              <ExamItem key={item.id} exam={item} />
             ))}
           </div>
 
@@ -125,6 +132,22 @@ const TemplateComponent = styled.div`
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      & > div:first-child {
+        display: flex;
+        align-items: center;
+
+        & > a {
+          background: none;
+          border: none;
+          padding: 0 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: var(--color-primary);
+        }
+      }
     }
   }
   & .loading {
@@ -135,4 +158,4 @@ const TemplateComponent = styled.div`
   }
 `;
 
-export default Template;
+export default ExamList;

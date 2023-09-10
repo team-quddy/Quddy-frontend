@@ -3,6 +3,7 @@ import TopNav from "./components/common/TopNav/TopNav";
 import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import Template from "./pages/Template";
+import ExamList from "./pages/ExamList";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="" element={<Main />} />
         <Route path="template" element={<Template />} />
+        <Route path="exam" element={<ExamList />} />
       </Routes>
     </AppComponent>
   );
