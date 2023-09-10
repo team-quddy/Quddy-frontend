@@ -17,6 +17,7 @@ const Template = () => {
   const [option, setOption, query] = useSearch<ResponseListType<ExamTemplateType>>(getExamTemplateList);
   const { text, sort } = option;
 
+  // 검색 결과 변경 시 리스트 초기화
   useEffect(() => {
     if (query.status === "loading" && option.page == 1) setList([]);
   }, [query.status, option.page]);
