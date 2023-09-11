@@ -4,7 +4,7 @@ import BackBtn from "../components/common/BackBtn/BackBtn";
 import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType } from "../types/types";
-import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
+import ProblemEditAccordion from "../components/Setter/Problem/ProblemEditAccordion/ProblemEditAccordion";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType>({
@@ -19,15 +19,31 @@ const Edit = () => {
     problems: [],
   });
 
+  const onUploadFile = () => {};
+
+  const onChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const file = e.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      const thumbnail = fileReader.result as string;
+      console.log(thumbnail);
+      setData((pre) => ({ ...pre, thumbnail }));
+    };
+  };
+
   return (
     <EditComponent>
       <BackBtn />
       <section className="exam-info">
         <div className="thumbnail">
-          <img />
-          <button type="button">
+          <img src={data.thumbnail} alt="썸네일" />
+          <input id="thumbnail" type="file" accept="image/png, image/jpg, image/jpeg" onChange={onChangeThumbnail} />
+          <label htmlFor="thumbnail">
             <TbCameraPlus />
-          </button>
+          </label>
         </div>
 
         {/* 문제집 설정 */}
@@ -79,7 +95,7 @@ const EditComponent = styled.div`
     display: flex;
 
     & > .thumbnail {
-      background-color: var(--color-gray);
+      background-color: var(--color-light-gray);
       border-radius: 8px;
       width: 40%;
       max-width: 300px;
@@ -87,8 +103,24 @@ const EditComponent = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
 
-      & > button {
+      & > img {
+        width: 100%;
+        margin: auto;
+        &[src=""] {
+          display: none;
+        }
+      }
+
+      & > input {
+        display: none;
+      }
+
+      & > label {
+        position: absolute;
+        z-index: 10;
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -100,6 +132,14 @@ const EditComponent = styled.div`
         justify-content: center;
         color: white;
         font-size: 28px;
+      }
+      &::after {
+        position: absolute;
+        z-index: 1;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.2);
       }
     }
 
