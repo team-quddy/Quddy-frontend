@@ -24,3 +24,31 @@ export interface BannerType {
   thumbnail: string; // 썸네일
   alt: string; // 설명
 }
+
+export interface ExamDetailType {
+  isPublic: boolean; // 공개여부
+  title: string; // 제목
+  date: string; // 출제날짜
+  scrap: number; // 스크랩 수
+  cnt: number; // 문제 개수
+  thumbnail: string; // 썸네일
+  ref: PK; // 참조 문제집
+  problems: ProblemStatisticalType[];
+}
+
+export interface ExamEditType extends ExamDetailType {
+  id: PK;
+}
+
+type ProblemAnswerType = "objective" | "subjective";
+
+export interface ProblemType {
+  question: string; // 문항
+  example: string; // 보기
+  types: ProblemAnswerType; // 문제 유형
+  option: null | string[]; //  선택지
+}
+
+export interface ProblemStatisticalType extends ProblemType {
+  correct: number; // 정답자 수
+}
