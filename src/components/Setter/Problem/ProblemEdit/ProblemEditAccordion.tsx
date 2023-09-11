@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import Accordion from "../../../common/Accordion/Accordion";
 import { TbArrowsShuffle, TbPhotoPlus, TbTextPlus } from "react-icons/tb";
-import ProblemEditExample from "./ProblemEditExample";
 
 const ProblemEditAccordion = () => {
   return (
