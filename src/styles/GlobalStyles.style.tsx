@@ -27,6 +27,9 @@ const GlobalStyles = createGlobalStyle`
         text-decoration: none;
         color: inherit;
     }
+    button, input {
+        font-family: inherit;
+    }
     html, body, #root {
         height: 100%;
     }
