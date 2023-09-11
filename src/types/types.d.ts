@@ -44,9 +44,10 @@ type ProblemAnswerType = "objective" | "subjective";
 
 export interface ProblemType {
   question: string; // 문항
-  example: string; // 보기
   types: ProblemAnswerType; // 문제 유형
-  option: null | string[]; //  선택지
+  opt: null | string[]; //  선택지
+  ex_img: string; // 보기 이미지
+  ex_text: string; // 보기 텍스트
 }
 
 export interface ProblemStatisticalType extends ProblemType {
