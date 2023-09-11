@@ -1,14 +1,31 @@
 import { styled } from "styled-components";
 import Accordion from "../../../common/Accordion/Accordion";
 import { TbArrowsShuffle, TbPhotoPlus, TbTextPlus } from "react-icons/tb";
+import { ProblemKeyType } from "../../../../types/types";
 
-const ProblemEditAccordion = () => {
+interface Props {
+  no: number;
+  problem: ProblemKeyType;
+  setProblem: (problem: ProblemKeyType) => void;
+}
+
+const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
+  const onChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const question = e.target.value;
+    setProblem({ ...problem, question });
+  };
+
   return (
     <ProblemEditComponent>
       <Accordion>
         <div className="title">
-          <div className="problem-no">Q 1</div>
-          <input onClick={(e) => e.stopPropagation()} placeholder="질문을 작성해주세요" />
+          <div className="problem-no">Q {no}</div>
+          <input
+            onClick={(e) => e.stopPropagation()}
+            value={problem.question}
+            onChange={onChangeQuestion}
+            placeholder="질문을 작성해주세요"
+          />
         </div>
 
         <div className="content">
@@ -22,10 +39,14 @@ const ProblemEditAccordion = () => {
 
           <h3>보기 설정</h3>
           <div className="example-area">
-            <button type="button">
-              <TbPhotoPlus />
-              이미지 추가
-            </button>
+            <div className="example-image">
+              <img />
+              <input id={`example-img-${problem.key}`} type="file" accept="image/*" />
+              <button type="button">
+                <TbPhotoPlus />
+                이미지 추가
+              </button>
+            </div>
             <button type="button">
               <TbTextPlus />
               텍스트 추가

@@ -25,7 +25,7 @@ export interface BannerType {
   alt: string; // 설명
 }
 
-export interface ExamDetailType {
+export interface ExamDetailType<T> {
   isPublic: boolean; // 공개여부
   title: string; // 제목
   date: string; // 출제날짜
@@ -33,10 +33,10 @@ export interface ExamDetailType {
   cnt: number; // 문제 개수
   thumbnail: string; // 썸네일
   ref: PK; // 참조 문제집
-  problems: ProblemStatisticalType[];
+  problems: T[];
 }
 
-export interface ExamEditType extends ExamDetailType {
+export interface ExamEditType<T> extends ExamDetailType<T> {
   id: PK;
 }
 
@@ -48,8 +48,13 @@ export interface ProblemType {
   opt: null | string[]; //  선택지
   ex_img: string; // 보기 이미지
   ex_text: string; // 보기 텍스트
+  answer: string; // 정답
 }
 
 export interface ProblemStatisticalType extends ProblemType {
   correct: number; // 정답자 수
+}
+
+export interface ProblemKeyType extends ProblemType {
+  key: number;
 }

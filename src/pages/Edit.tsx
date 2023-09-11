@@ -3,11 +3,11 @@ import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
 import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
-import { ExamEditType } from "../types/types";
+import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEditAccordion/ProblemEditAccordion";
 
 const Edit = () => {
-  const [data, setData] = useState<ExamEditType>({
+  const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
     isPublic: false,
     title: "",
     date: "2023/09/10",
@@ -18,9 +18,9 @@ const Edit = () => {
     id: "",
     problems: [],
   });
+  const [problemCnt, setProblemCnt] = useState<number>(0);
 
-  const onUploadFile = () => {};
-
+  // 썸네일 변경 이벤트
   const onChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -29,9 +29,36 @@ const Edit = () => {
 
     fileReader.onload = () => {
       const thumbnail = fileReader.result as string;
-      console.log(thumbnail);
       setData((pre) => ({ ...pre, thumbnail }));
     };
+  };
+
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const title = e.target.value;
+    setData((pre) => ({ ...pre, title }));
+  };
+
+  const onAddProblem = () => {
+    if (data.problems.length >= 10) return;
+
+    const problem: ProblemKeyType = {
+      question: "",
+      types: "objective",
+      opt: [],
+      answer: "",
+      ex_img: "",
+      ex_text: "",
+      key: problemCnt,
+    };
+    setProblemCnt((pre) => pre + 1);
+    setData((pre) => ({ ...pre, problems: [...pre.problems, problem] }));
+  };
+  const onChangeProblem = (problem: ProblemKeyType) => {
+    const idx = data.problems.findIndex((item) => item.key === problem.key);
+    setData((pre) => {
+      pre.problems[idx] = problem;
+      return { ...pre };
+    });
   };
 
   return (
@@ -52,7 +79,7 @@ const Edit = () => {
             <label htmlFor="title">
               문제집명<b>*</b>
             </label>
-            <input id="title" type="text" placeholder="문제집명" />
+            <input id="title" type="text" placeholder="문제집명" value={data.title} onChange={onChangeTitle} />
           </div>
           <div>
             <label>
@@ -69,15 +96,16 @@ const Edit = () => {
         <div className="title">
           <h2>문제 목록</h2>
           <p>
-            <b>0</b>/10
+            <b>{data.problems.length}</b>/10
           </p>
         </div>
 
         <div className="list">
-          <ProblemEditAccordion />
-          <ProblemEditAccordion />
+          {data.problems.map((item, idx) => (
+            <ProblemEditAccordion key={item.key} no={idx + 1} problem={item} setProblem={onChangeProblem} />
+          ))}
         </div>
-        <button type="button" className="add-btn">
+        <button type="button" className="add-btn" onClick={onAddProblem}>
           <TbPlus />
         </button>
       </section>
