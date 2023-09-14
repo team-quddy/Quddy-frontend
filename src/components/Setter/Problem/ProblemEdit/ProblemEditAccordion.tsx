@@ -42,7 +42,7 @@ const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
           <h3>보기 설정</h3>
           <div className="example-area">
             <ProblemEditImage problem={problem} setProblem={setProblem} />
-            <ProblemEditText />
+            <ProblemEditText problem={problem} setProblem={setProblem} />
           </div>
 
           <h3>선택지 설정</h3>
