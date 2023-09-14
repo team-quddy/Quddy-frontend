@@ -1,7 +1,9 @@
 import { styled } from "styled-components";
 import Accordion from "../../../common/Accordion/Accordion";
-import { TbArrowsShuffle, TbPhotoPlus, TbTextPlus } from "react-icons/tb";
+import { TbArrowsShuffle } from "react-icons/tb";
 import { ProblemKeyType } from "../../../../types/types";
+import ProblemEditText from "./ProblemEditText";
+import ProblemEditImage from "./ProblemEditImage";
 
 interface Props {
   no: number;
@@ -39,18 +41,8 @@ const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
 
           <h3>보기 설정</h3>
           <div className="example-area">
-            <div className="example-image">
-              <img />
-              <input id={`example-img-${problem.key}`} type="file" accept="image/*" />
-              <button type="button">
-                <TbPhotoPlus />
-                이미지 추가
-              </button>
-            </div>
-            <button type="button">
-              <TbTextPlus />
-              텍스트 추가
-            </button>
+            <ProblemEditImage problem={problem} setProblem={setProblem} />
+            <ProblemEditText />
           </div>
 
           <h3>선택지 설정</h3>
@@ -104,7 +96,6 @@ const ProblemEditComponent = styled.div`
       font-size: 14px;
     }
     & > div {
-      display: grid;
       margin-bottom: 24px;
       & > button {
         font-size: 12px;
@@ -123,6 +114,7 @@ const ProblemEditComponent = styled.div`
     }
 
     & .management-area {
+      display: grid;
       grid-template-columns: 2fr 1fr;
       grid-column-gap: 12px;
 
@@ -135,11 +127,17 @@ const ProblemEditComponent = styled.div`
       }
     }
     & .example-area {
-      grid-template-columns: 1fr 1fr;
-      grid-column-gap: 12px;
-      & button {
-        height: 56px;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-row-gap: 12px;
+      & > button {
+        padding: 8px 0;
+        display: flex;
         flex-direction: column;
+        height: auto;
+        & svg {
+          font-size: 24px;
+        }
       }
     }
   }

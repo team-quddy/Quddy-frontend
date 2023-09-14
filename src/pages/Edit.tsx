@@ -4,7 +4,7 @@ import BackBtn from "../components/common/BackBtn/BackBtn";
 import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
-import ProblemEditAccordion from "../components/Setter/Problem/ProblemEditAccordion/ProblemEditAccordion";
+import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
@@ -29,15 +29,18 @@ const Edit = () => {
 
     fileReader.onload = () => {
       const thumbnail = fileReader.result as string;
+      console.log(thumbnail.length);
       setData((pre) => ({ ...pre, thumbnail }));
     };
   };
 
+  // 타이틀 변경 이벤트
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setData((pre) => ({ ...pre, title }));
   };
 
+  // 문제 추가 이벤트
   const onAddProblem = () => {
     if (data.problems.length >= 10) return;
 
@@ -53,6 +56,8 @@ const Edit = () => {
     setProblemCnt((pre) => pre + 1);
     setData((pre) => ({ ...pre, problems: [...pre.problems, problem] }));
   };
+
+  // 문제 내용 변경 이벤트
   const onChangeProblem = (problem: ProblemKeyType) => {
     const idx = data.problems.findIndex((item) => item.key === problem.key);
     setData((pre) => {
