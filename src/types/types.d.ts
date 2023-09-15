@@ -44,6 +44,7 @@ type ProblemAnswerType = "objective" | "subjective";
 
 export interface ProblemType {
   question: string; // 문항
+  // TODO: types -> is_objective : boolean 변경
   types: ProblemAnswerType; // 문제 유형
   opt: null | string[]; //  선택지
   ex_img: string; // 보기 이미지
