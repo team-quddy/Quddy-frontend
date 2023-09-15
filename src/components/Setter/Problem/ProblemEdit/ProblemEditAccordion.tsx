@@ -4,6 +4,7 @@ import { TbArrowsShuffle } from "react-icons/tb";
 import { ProblemKeyType } from "../../../../types/types";
 import ProblemEditText from "./ProblemEditText";
 import ProblemEditImage from "./ProblemEditImage";
+import ProblemEditOption from "./ProblemEditOption";
 
 interface Props {
   no: number;
@@ -46,7 +47,7 @@ const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
           </div>
 
           <h3>선택지 설정</h3>
-          <div className="option-area"></div>
+          <ProblemEditOption problem={problem} setProblem={setProblem} />
         </div>
       </Accordion>
     </ProblemEditComponent>
@@ -138,6 +139,14 @@ const ProblemEditComponent = styled.div`
         & svg {
           font-size: 24px;
         }
+      }
+    }
+
+    & .option-area {
+      display: flex;
+      & > div {
+        margin-left: 16px;
+        margin-bottom: 8px;
       }
     }
   }
