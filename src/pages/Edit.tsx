@@ -46,8 +46,8 @@ const Edit = () => {
 
     const problem: ProblemKeyType = {
       question: "",
-      types: "objective",
-      opt: [],
+      is_objective: true,
+      opt: ["", "", "", ""],
       answer: "",
       ex_img: "",
       ex_text: "",
