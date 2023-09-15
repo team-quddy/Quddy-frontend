@@ -1,4 +1,4 @@
-import { TbPhotoPlus } from "react-icons/tb";
+import { TbPhotoPlus, TbX } from "react-icons/tb";
 import { styled } from "styled-components";
 import { ProblemKeyType } from "../../../../types/types";
 import { StretchHeightEvent } from "../../../../types/event";
@@ -37,11 +37,31 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
     };
   };
 
+  const onResetImage = () => {
+    // input 초기화를 통해 같은 이미지 삭제 -> 재삽입 가능하도록 설정
+    const input = divRef.current?.querySelector("input");
+    if (input) input.value = "";
+
+    setProblem({ ...problem, ex_img: "" });
+
+    divRef.current?.dispatchEvent(
+      new CustomEvent<StretchHeightEvent>("stretchHeight", {
+        detail: {
+          height: -(divRef.current.offsetWidth * (2 / 3) - 56),
+        },
+        bubbles: true,
+      })
+    );
+  };
+
   return (
     <ProblemEditImageComponent ref={divRef}>
       <input id={`example-img-${problem.key}`} type="file" accept="image/*" onChange={onChangeImage} />
       {problem.ex_img ? (
         <div className="example-img">
+          <button type="button" onClick={onResetImage}>
+            <TbX />
+          </button>
           <img src={problem.ex_img} alt="보기 이미지" />
           <label htmlFor={`example-img-${problem.key}`}>
             <TbPhotoPlus />
@@ -128,6 +148,22 @@ const ProblemEditImageComponent = styled.div`
       &[src=""] {
         display: none;
       }
+    }
+    & button {
+      position: absolute;
+      z-index: 10;
+      top: 8px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 28px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 `;
