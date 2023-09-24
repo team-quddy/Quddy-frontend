@@ -85,7 +85,13 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
       ) : (
         <div className="subjective">
           <label>정답</label>
-          <input type="text" value={problem.answer} onChange={onChangeAnswer} placeholder="정답을 입력해주세요" />
+          <input
+            type="text"
+            id={`answer-${problem.key}`}
+            value={problem.answer}
+            onChange={onChangeAnswer}
+            placeholder="정답을 입력해주세요"
+          />
         </div>
       )}
     </ProblemEditOptionComponent>

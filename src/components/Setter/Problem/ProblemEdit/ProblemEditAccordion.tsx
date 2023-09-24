@@ -27,7 +27,7 @@ const ProblemEditAccordion = ({ no, problem, setProblem, removeProblem }: Props)
 
   return (
     <ProblemEditComponent>
-      <Accordion>
+      <Accordion id={`problem-${problem.key}`}>
         <div className="title">
           <div className="problem-no">Q {no}</div>
           <input
@@ -35,6 +35,7 @@ const ProblemEditAccordion = ({ no, problem, setProblem, removeProblem }: Props)
             value={problem.question}
             onChange={onChangeQuestion}
             placeholder="질문을 작성해주세요"
+            id={`question-${problem.key}`}
           />
         </div>
 

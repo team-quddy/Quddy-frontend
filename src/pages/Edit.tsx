@@ -48,7 +48,7 @@ const Edit = () => {
       question: "",
       is_objective: true,
       opt: ["", "", "", ""],
-      answer: "",
+      answer: "0",
       ex_img: "",
       ex_text: "",
       key: problemCnt,
@@ -72,6 +72,63 @@ const Edit = () => {
       pre.problems = pre.problems.filter((item) => item.key !== key);
       return { ...pre };
     });
+  };
+
+  // 문제집 등록 이벤트
+  const onSubmit = () => {
+    // 필수값이 모두 채워져있는지 확인
+    if (!data.title) {
+      alert("문제집명을 입력해주세요!");
+      const titleInput = document.querySelector("#title") as HTMLInputElement;
+      titleInput.focus();
+      return;
+    }
+    if (!data.problems.length) {
+      alert("최소 한 개 이상의 문제를 추가해주세요!");
+      return;
+    }
+
+    // 문제가 모두 유효한지 확인
+    // 질문, 정답에 대한 값이 모두 존재해야함
+    let pass = true;
+    data.problems.forEach((problem, idx) => {
+      // 질문 미입력
+      if (!problem.question) {
+        alert(`${idx + 1}번째 문제의 질문을 입력해주세요!`);
+        const questionInput = document.querySelector(`#question-${problem.key}`) as HTMLInputElement;
+        // 아코디언이 닫혀있으면 열기
+        const accordionDiv = document.querySelector(`#problem-${problem.key}`) as HTMLDivElement;
+        console.log(accordionDiv);
+        if (accordionDiv.className.match("close")) {
+          const headerDiv = accordionDiv.firstChild as HTMLDivElement;
+          headerDiv.click();
+        }
+        questionInput.focus();
+        pass = false;
+        return false;
+      }
+      // 정답 미입력
+      if (!problem.answer) {
+        alert(`${idx + 1}번째 문제의 정답을 입력해주세요!`);
+        const answerInput = document.querySelector(`#answer-${problem.key}`) as HTMLInputElement;
+        // 아코디언이 닫혀있으면 열기
+        const accordionDiv = document.querySelector(`#problem-${problem.key}`) as HTMLDivElement;
+        if (accordionDiv.className.match("close")) {
+          const headerDiv = accordionDiv.firstChild as HTMLDivElement;
+          headerDiv.click();
+        }
+        if (accordionDiv.className.match("close")) accordionDiv.click();
+        answerInput.focus();
+        pass = false;
+        return false;
+      }
+    });
+
+    if (!pass) return;
+
+    // TODO: 문제집 id 유무에 따른 요청 처리
+    // case 1: 문제집 id 있음(PUT)
+    // case 2: 문제집 id 없음(POST)
   };
 
   return (
@@ -129,14 +186,27 @@ const Edit = () => {
           <TbPlus />
         </button>
       </section>
+
+      <button type="button" className="submit-btn" onClick={onSubmit}>
+        출제하기
+      </button>
     </EditComponent>
   );
 };
 
 const EditComponent = styled.div`
+  min-height: calc(100vh - 48px);
   max-width: 800px;
   margin: auto;
-  padding: 24px 20px 120px;
+  box-sizing: border-box;
+  padding: 24px 20px 56px;
+
+  display: flex;
+  flex-direction: column;
+
+  & > button {
+    align-self: flex-start;
+  }
 
   & > section.exam-info {
     margin-top: 20px;
@@ -238,6 +308,7 @@ const EditComponent = styled.div`
 
   & > section.problem-list {
     margin-top: 28px;
+    margin-bottom: 48px;
 
     & > .title {
       display: flex;
@@ -275,6 +346,20 @@ const EditComponent = styled.div`
         display: none;
       }
     }
+  }
+
+  & .submit-btn {
+    margin-top: auto;
+    align-self: center;
+    height: 56px;
+    width: 100%;
+    max-width: 180px;
+    color: var(--color-theme);
+    font-size: 14px;
+    font-weight: bold;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 8px;
   }
 `;
 
