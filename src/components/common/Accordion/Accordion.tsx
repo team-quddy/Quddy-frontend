@@ -5,10 +5,11 @@ import { StretchHeightEvent } from "../../../types/event";
 
 interface Props {
   className?: string;
+  id?: string;
   children: JSX.Element[];
 }
 
-const Accordion = ({ className = "", children }: Props) => {
+const Accordion = ({ className = "", id, children }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,7 @@ const Accordion = ({ className = "", children }: Props) => {
   const onToggle = () => setOpen((pre) => !pre);
 
   return (
-    <AccordionComponent ref={divRef} className={`${open ? " " : " close "}${className}`}>
+    <AccordionComponent ref={divRef} className={`${open ? " " : " close "}${className}`} id={id}>
       <div className="header" onClick={onToggle}>
         {children[0]}
         <TbChevronDown />
