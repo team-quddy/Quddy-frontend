@@ -10,12 +10,19 @@ interface Props {
   no: number;
   problem: ProblemKeyType;
   setProblem: (problem: ProblemKeyType) => void;
+  removeProblem: (key: number) => void;
 }
 
-const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
+const ProblemEditAccordion = ({ no, problem, setProblem, removeProblem }: Props) => {
+  // 문제 변경 이벤트
   const onChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     const question = e.target.value;
     setProblem({ ...problem, question });
+  };
+
+  // 문제 삭제 이벤트
+  const onRemoveProblem = () => {
+    removeProblem(problem.key);
   };
 
   return (
@@ -37,7 +44,9 @@ const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
             <button type="button">
               <TbArrowsShuffle /> 랜덤 문제 가져오기
             </button>
-            <button type="button">문제 삭제</button>
+            <button type="button" onClick={onRemoveProblem}>
+              문제 삭제
+            </button>
           </div>
 
           <h3>보기 설정</h3>
@@ -55,13 +64,16 @@ const ProblemEditAccordion = ({ no, problem, setProblem }: Props) => {
 };
 
 const ProblemEditComponent = styled.div`
+  & > div {
+    transition: height 1000ms;
+  }
   /* 상단부 스타일 */
   & .title {
     display: flex;
     margin: 8px 0;
 
     & .problem-no {
-      width: 48px;
+      min-width: 48px;
       padding: 8px;
       border-radius: 20px;
       background-color: var(--color-primary);

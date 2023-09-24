@@ -66,6 +66,14 @@ const Edit = () => {
     });
   };
 
+  // 문제 삭제 이벤트
+  const onRemoveProblem = (key: number) => {
+    setData((pre) => {
+      pre.problems = pre.problems.filter((item) => item.key !== key);
+      return { ...pre };
+    });
+  };
+
   return (
     <EditComponent>
       <BackBtn />
@@ -107,10 +115,17 @@ const Edit = () => {
 
         <div className="list">
           {data.problems.map((item, idx) => (
-            <ProblemEditAccordion key={item.key} no={idx + 1} problem={item} setProblem={onChangeProblem} />
+            <ProblemEditAccordion
+              key={item.key}
+              no={idx + 1}
+              problem={item}
+              setProblem={onChangeProblem}
+              removeProblem={onRemoveProblem}
+            />
           ))}
         </div>
-        <button type="button" className="add-btn" onClick={onAddProblem}>
+
+        <button type="button" className={`add-btn ${data.problems.length < 10}`} onClick={onAddProblem}>
           <TbPlus />
         </button>
       </section>
@@ -121,7 +136,7 @@ const Edit = () => {
 const EditComponent = styled.div`
   max-width: 800px;
   margin: auto;
-  padding: 24px 20px;
+  padding: 24px 20px 120px;
 
   & > section.exam-info {
     margin-top: 20px;
@@ -255,6 +270,10 @@ const EditComponent = styled.div`
       justify-content: center;
       font-size: 32px;
       color: var(--color-theme);
+
+      &.false {
+        display: none;
+      }
     }
   }
 `;
