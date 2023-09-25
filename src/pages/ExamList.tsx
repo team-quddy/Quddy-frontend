@@ -81,6 +81,9 @@ const ExamList = () => {
           <div className={`loading ${query.status === "loading" ? "visible" : ""}`}>
             <Loading />
           </div>
+          {list.length && query.data && query.data.list.length < option.size ? (
+            <p className="endline">목록의 마지막입니다</p>
+          ) : undefined}
         </section>
       </div>
       <TopBtn />
@@ -163,6 +166,12 @@ const TemplateComponent = styled.div`
       visibility: visible;
       height: 160px;
     }
+  }
+  & p.endline {
+    margin-top: 24px;
+    font-size: 10px;
+    color: var(--color-primary);
+    text-align: center;
   }
 `;
 
