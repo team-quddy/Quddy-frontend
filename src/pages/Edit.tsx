@@ -26,13 +26,11 @@ const Edit = () => {
     if (!e.target.files) return;
     if (!e.target.files.length) return;
     const file = await compressImage(e.target.files[0]);
-    console.log(file.size);
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
 
     fileReader.onload = () => {
       const thumbnail = fileReader.result as string;
-      console.log(thumbnail.length);
       setData((pre) => ({ ...pre, thumbnail }));
     };
   };
@@ -101,7 +99,6 @@ const Edit = () => {
         const questionInput = document.querySelector(`#question-${problem.key}`) as HTMLInputElement;
         // 아코디언이 닫혀있으면 열기
         const accordionDiv = document.querySelector(`#problem-${problem.key}`) as HTMLDivElement;
-        console.log(accordionDiv);
         if (accordionDiv.className.match("close")) {
           const headerDiv = accordionDiv.firstChild as HTMLDivElement;
           headerDiv.click();
