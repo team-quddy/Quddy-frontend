@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
 import { postExam } from "../apis/Setter";
+import { compressImage } from "../utils/image";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
@@ -21,9 +22,11 @@ const Edit = () => {
   const [problemCnt, setProblemCnt] = useState<number>(0);
 
   // 썸네일 변경 이벤트
-  const onChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const file = e.target.files[0];
+    if (!e.target.files.length) return;
+    const file = await compressImage(e.target.files[0]);
+    console.log(file.size);
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
 
@@ -228,7 +231,8 @@ const EditComponent = styled.div`
       position: relative;
 
       & > img {
-        width: 100%;
+        max-width: 100%;
+        max-height: 100%;
         margin: auto;
         &[src=""] {
           display: none;

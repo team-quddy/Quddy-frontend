@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { ProblemKeyType } from "../../../../types/types";
 import { StretchHeightEvent } from "../../../../types/event";
 import { useRef } from "react";
+import { compressImage } from "../../../../utils/image";
 
 interface Props {
   problem: ProblemKeyType;
@@ -13,9 +14,10 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   // 이미지 변경 이벤트
-  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
-    const file = e.target.files[0];
+    if (!e.target.files.length) return;
+    const file = await compressImage(e.target.files[0]);
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file);
 
