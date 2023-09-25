@@ -1,3 +1,5 @@
+import { debounce } from "lodash";
+import { useRef } from "react";
 import { TbSearch, TbX } from "react-icons/tb";
 import { styled } from "styled-components";
 
@@ -8,18 +10,25 @@ interface Props {
 }
 
 const SearchInput = ({ placeholder, search, setSearch }: Props) => {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.currentTarget.value);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onChangeDebounce = debounce(() => {
+    if (inputRef.current) setSearch(inputRef.current.value);
+  }, 1000);
+
+  const onResetValue = () => {
+    if (inputRef.current) inputRef.current.value = "";
+    setSearch("");
   };
 
   return (
     <SearchInputComponent>
       <TbSearch />
 
-      <input value={search} onChange={onChange} placeholder={placeholder} />
+      <input defaultValue={search} ref={inputRef} onChange={onChangeDebounce} placeholder={placeholder} />
 
       {/* 닫기 버튼 */}
-      <button type="button" className={`clear-btn ${search ? "" : "blank"}`} onClick={() => setSearch("")}>
+      <button type="button" className="clear-btn" onClick={onResetValue}>
         <TbX />
       </button>
     </SearchInputComponent>
@@ -79,10 +88,9 @@ const SearchInputComponent = styled.div`
       font-size: 14px;
       color: white;
     }
-
-    &.blank {
-      display: none;
-    }
+  }
+  input[value=""] + .clear-btn {
+    display: none;
   }
 `;
 

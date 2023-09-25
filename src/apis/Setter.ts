@@ -15,9 +15,10 @@ import SampleExamList from "./sample/Exam.json";
 export async function getExamTemplateList(searchOption: SearchOption): Promise<ResponseListType<ExamTemplateType>> {
   // TODO : 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
+  const list: ExamTemplateType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.lastId}` }));
   return {
-    list: SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` })),
-    page: searchOption.page,
+    list,
+    lastId: list[list.length - 1].id,
   };
   return await getInstance().get("/template", { params: searchOption });
 }
@@ -29,9 +30,10 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
 export async function getExamList(searchOption: SearchOption): Promise<ResponseListType<ExamType>> {
   // TODO : 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
+  const list: ExamType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.lastId}` }));
   return {
-    list: SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` })),
-    page: searchOption.page,
+    list,
+    lastId: list[list.length - 1].id,
   };
   return await getInstance().get("/setter", { params: searchOption });
 }
