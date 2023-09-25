@@ -3,7 +3,7 @@
 import getInstance from ".";
 import { ResponseListType } from "../types/response";
 import { SearchOption } from "../types/search";
-import { ExamTemplateType, ExamType } from "../types/types";
+import { ExamEditType, ExamTemplateType, ExamType, ProblemType } from "../types/types";
 
 // sample data
 import SampleExamList from "./sample/Exam.json";
@@ -33,5 +33,23 @@ export async function getExamList(searchOption: SearchOption): Promise<ResponseL
     list: SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` })),
     page: searchOption.page,
   };
-  return await getInstance().get("/template", { params: searchOption });
+  return await getInstance().get("/setter", { params: searchOption });
+}
+
+/**
+ * [POST] 문제집 등록 요청
+ */
+export async function postExam(exam: ExamEditType<ProblemType>): Promise<void> {
+  // 불필요한 field 삭제
+  const problems = exam.problems.map(({ question, isObjective, answer, opt, exImg, exText }) => ({
+    question,
+    isObjective,
+    answer,
+    opt,
+    exImg,
+    exText,
+  }));
+
+  exam.problems = problems;
+  return await getInstance().post<ExamEditType<ProblemType>, void>("/setter", exam);
 }

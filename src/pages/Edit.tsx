@@ -5,13 +5,13 @@ import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
+import { postExam } from "../apis/Setter";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
     isPublic: false,
     title: "",
     date: "2023/09/10",
-    scrap: 0,
     cnt: 0,
     thumbnail: "",
     ref: "",
@@ -128,6 +128,7 @@ const Edit = () => {
 
     // TODO: 문제집 id 유무에 따른 요청 처리
     // case 1: 문제집 id 있음(PUT)
+    if (!data.id) postExam(data);
     // case 2: 문제집 id 없음(POST)
   };
 
