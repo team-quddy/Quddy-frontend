@@ -13,6 +13,7 @@ import { throttle } from "lodash";
 import ExamItem from "../components/common/ExamItem/ExamItem";
 import { TbPlus } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
+import TopBtn from "../components/common/TopBtn/TopBtn";
 
 const ExamList = () => {
   const [list, setList] = useState<ExamType[]>([]);
@@ -82,6 +83,7 @@ const ExamList = () => {
           </div>
         </section>
       </div>
+      <TopBtn />
       <Footer />
     </TemplateComponent>
   );
@@ -155,9 +157,11 @@ const TemplateComponent = styled.div`
     }
   }
   & .loading {
+    height: 32px;
     visibility: hidden;
     &.visible {
       visibility: visible;
+      height: 160px;
     }
   }
 `;

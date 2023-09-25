@@ -11,6 +11,7 @@ import ExamTemplateItem from "../components/common/ExamTemplateItem/ExamTemplate
 import { useEffect, useState } from "react";
 import { ResponseListType } from "../types/response";
 import { throttle } from "lodash";
+import TopBtn from "../components/common/TopBtn/TopBtn";
 
 const Template = () => {
   const [list, setList] = useState<ExamTemplateType[]>([]);
@@ -75,6 +76,7 @@ const Template = () => {
           </div>
         </section>
       </div>
+      <TopBtn />
       <Footer />
     </TemplateComponent>
   );
@@ -132,9 +134,11 @@ const TemplateComponent = styled.div`
     }
   }
   & .loading {
+    height: 32px;
     visibility: hidden;
     &.visible {
       visibility: visible;
+      height: 160px;
     }
   }
 `;
