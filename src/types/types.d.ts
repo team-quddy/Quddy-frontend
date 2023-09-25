@@ -42,10 +42,10 @@ export interface ExamEditType<T> extends ExamDetailType<T> {
 
 export interface ProblemType {
   question: string; // 문항
-  is_objective: boolean; // 문제 유형
+  isObjective: boolean; // 문제 유형
   opt: null | string[]; //  선택지
-  ex_img: string; // 보기 이미지
-  ex_text: string; // 보기 텍스트
+  exImg: string; // 보기 이미지
+  exText: string; // 보기 텍스트
   answer: string; // 정답
 }
 

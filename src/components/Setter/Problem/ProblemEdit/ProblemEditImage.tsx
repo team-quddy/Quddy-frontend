@@ -21,7 +21,7 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
 
     fileReader.onload = () => {
       // 이미지가 추가되면 accordion을 리사이징
-      if (!problem.ex_img)
+      if (!problem.exImg)
         divRef.current?.dispatchEvent(
           new CustomEvent<StretchHeightEvent>("stretchHeight", {
             detail: {
@@ -32,8 +32,8 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
         );
 
       // 로드된 이미지를 저장
-      const ex_img = fileReader.result as string;
-      setProblem({ ...problem, ex_img });
+      const exImg = fileReader.result as string;
+      setProblem({ ...problem, exImg });
     };
   };
 
@@ -42,7 +42,7 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
     const input = divRef.current?.querySelector("input");
     if (input) input.value = "";
 
-    setProblem({ ...problem, ex_img: "" });
+    setProblem({ ...problem, exImg: "" });
 
     divRef.current?.dispatchEvent(
       new CustomEvent<StretchHeightEvent>("stretchHeight", {
@@ -57,12 +57,12 @@ const ProblemEditImage = ({ problem, setProblem }: Props) => {
   return (
     <ProblemEditImageComponent ref={divRef}>
       <input id={`example-img-${problem.key}`} type="file" accept="image/*" onChange={onChangeImage} />
-      {problem.ex_img ? (
+      {problem.exImg ? (
         <div className="example-img">
           <button type="button" onClick={onResetImage}>
             <TbX />
           </button>
-          <img src={problem.ex_img} alt="보기 이미지" />
+          <img src={problem.exImg} alt="보기 이미지" />
           <label htmlFor={`example-img-${problem.key}`}>
             <TbPhotoPlus />
           </label>

@@ -46,11 +46,11 @@ const Edit = () => {
 
     const problem: ProblemKeyType = {
       question: "",
-      is_objective: true,
+      isObjective: true,
       opt: ["", "", "", ""],
       answer: "0",
-      ex_img: "",
-      ex_text: "",
+      exImg: "",
+      exText: "",
       key: problemCnt,
     };
     setProblemCnt((pre) => pre + 1);

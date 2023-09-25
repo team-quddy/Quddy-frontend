@@ -13,13 +13,13 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   // 정답 방식 변경 이벤트
-  const onChangeObjective = (is_objective: boolean) => {
+  const onChangeObjective = (isObjective: boolean) => {
     const opt = ["", "", "", ""];
-    const answer = is_objective ? "" : "0";
-    is_objective = !is_objective;
-    setProblem({ ...problem, is_objective, opt, answer });
+    const answer = isObjective ? "" : "0";
+    isObjective = !isObjective;
+    setProblem({ ...problem, isObjective, opt, answer });
 
-    const height = is_objective ? 126 : -126;
+    const height = isObjective ? 126 : -126;
 
     // 컴포넌트 크기 변경에 따른 이벤트 실행
     divRef.current?.dispatchEvent(
@@ -52,10 +52,10 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
       <Checkbox
         id={`${problem.key}-isObjecive`}
         label="주관식"
-        value={!problem.is_objective}
+        value={!problem.isObjective}
         setValue={onChangeObjective}
       />
-      {problem.is_objective ? (
+      {problem.isObjective ? (
         <>
           <div className="ans-column">정답</div>
           <div className="objective">

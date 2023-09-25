@@ -38,14 +38,14 @@ const ProblemEditText = ({ problem, setProblem }: Props) => {
         bubbles: true,
       })
     );
-    setProblem({ ...problem, ex_text: "" });
+    setProblem({ ...problem, exText: "" });
     setEdit(false);
   };
 
   // 텍스트 변경 이벤트
   const onChangeText = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    setProblem({ ...problem, ex_text: value });
+    setProblem({ ...problem, exText: value });
   };
 
   return (
@@ -58,7 +58,7 @@ const ProblemEditText = ({ problem, setProblem }: Props) => {
               <TbX />
             </button>
           </div>
-          <textarea placeholder="보기 텍스트를 입력해주세요" value={problem.ex_text} onChange={onChangeText} />
+          <textarea placeholder="보기 텍스트를 입력해주세요" value={problem.exText} onChange={onChangeText} />
         </>
       ) : (
         <button type="button" onClick={onActiveEdit}>
