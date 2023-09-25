@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./pages/Main";
 import Template from "./pages/Template";
 import ExamList from "./pages/ExamList";
+import Edit from "./pages/Edit";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="" element={<Main />} />
         <Route path="template" element={<Template />} />
         <Route path="exam" element={<ExamList />} />
+        <Route path="edit" element={<Edit />} />
       </Routes>
     </AppComponent>
   );

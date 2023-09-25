@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
 
       --color-primary: #116616;
       --color-background: #C6D2BF;
-      --color-light-gray: #f0f0f0;
+      --color-light-gray: #f6f6f6;
       --color-gray: #d9d9d9;
       --color-theme: #ffffff;
       --color-text: #000000;
@@ -26,6 +26,9 @@ const GlobalStyles = createGlobalStyle`
     a{
         text-decoration: none;
         color: inherit;
+    }
+    button, input {
+        font-family: inherit;
     }
     html, body, #root {
         height: 100%;
