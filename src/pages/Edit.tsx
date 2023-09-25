@@ -75,7 +75,7 @@ const Edit = () => {
   };
 
   // 문제집 등록 이벤트
-  const onSubmit = () => {
+  const onSubmit = async () => {
     // 필수값이 모두 채워져있는지 확인
     if (!data.title) {
       alert("문제집명을 입력해주세요!");
@@ -128,7 +128,9 @@ const Edit = () => {
 
     // TODO: 문제집 id 유무에 따른 요청 처리
     // case 1: 문제집 id 있음(PUT)
-    if (!data.id) postExam(data);
+    if (!data.id) {
+      await postExam(data);
+    }
     // case 2: 문제집 id 없음(POST)
   };
 
