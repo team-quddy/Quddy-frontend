@@ -44,7 +44,7 @@ const ExamList = () => {
 
     const target = e.target as HTMLElement;
     const bottom = target.scrollHeight - target.offsetHeight;
-    if (bottom - 120 <= target.scrollTop) {
+    if (bottom - 160 <= target.scrollTop) {
       setOptionThrottle();
     }
   };
