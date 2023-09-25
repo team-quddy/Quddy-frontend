@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import GuideBanner from "../assets/imgs/guide_banner.png";
 import useSearch from "../hooks/useSearch";
-import { ExamType } from "../types/types";
+import { ExamType, PK } from "../types/types";
 import { getExamList } from "../apis/Setter";
 import SearchInput from "../components/common/Search/SearchInput";
 import SearchSorter from "../components/common/Search/SearchSorter";
@@ -16,26 +16,30 @@ import { NavLink } from "react-router-dom";
 
 const ExamList = () => {
   const [list, setList] = useState<ExamType[]>([]);
+  const [lastId, setLastId] = useState<PK | null>(null);
   const [option, setOption, query] = useSearch<ResponseListType<ExamType>>(getExamList);
-  const { text, sort } = option;
+  const { keyword, sort } = option;
 
   // 검색 결과 변경 시 리스트 초기화
   useEffect(() => {
-    if (query.status === "loading" && option.page == 1) setList([]);
-  }, [query.status, option.page]);
+    if (query.status === "loading" && !option.lastId) setList([]);
+  }, [query.status, option.lastId]);
 
   // 요청 결과를 list에 저장
   useEffect(() => {
     if (!query.data) return;
-    if (query.data.page === 1) setList(query.data.list);
-    else setList((pre) => [...pre, ...query.data.list]);
+    setList((pre) => [...pre, ...query.data.list]);
+    setLastId(query.data.lastId);
   }, [query.data]);
 
-  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, page: option.page + 1 })), 1000);
+  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, lastId })), 1000);
 
   // 스크롤 이벤트
   const onScroll = (e: React.UIEvent) => {
     if (query.status === "loading") return;
+    // 마지막 페이지인 경우 요청을 보내지 않음
+    if (query.data && query.data.list.length < option.size) return;
+
     const target = e.target as HTMLElement;
     const bottom = target.scrollHeight - target.offsetHeight;
     if (bottom - 120 <= target.scrollTop) {
@@ -49,8 +53,8 @@ const ExamList = () => {
         <img className="guide-banner" src={GuideBanner} alt="큐디 완벽 가이드 배너" />
         <section>
           <SearchInput
-            search={text}
-            setSearch={(text) => setOption((pre) => ({ ...pre, text, page: 1 }))}
+            search={keyword}
+            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, lastId: null }))}
             placeholder="문제집명을 검색해 빠르게 찾아보세요"
           />
 
@@ -62,7 +66,7 @@ const ExamList = () => {
                 <TbPlus />
               </NavLink>
             </div>
-            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, page: 1 }))} />
+            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, lastId: null }))} />
           </div>
 
           {/* 템플릿 목록 */}
