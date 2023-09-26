@@ -1,0 +1,42 @@
+[
+  {
+    "question": "다음 중 한유경(이)가 먹지 않는 음식은?",
+    "isObjective": true,
+    "opt": ["카레 속 당근", "치킨무", "시금치", "샤브샤브 야채"],
+    "exImg": "",
+    "exText": "",
+    "answer": "1"
+  },
+  {
+    "question": "한유경의 생일은?(YYYY-MM-DD)",
+    "isObjective": false,
+    "opt": null,
+    "exImg": "",
+    "exText": "",
+    "answer": "1999-03-12"
+  },
+  {
+    "question": "다음 중 한유경이 한 말이 주로 의미하는 것은?",
+    "isObjective": true,
+    "opt": ["동의한다", "어이없다", "뿌듯하다", "싫다"],
+    "exImg": "",
+    "exText": "ㅎㅎ",
+    "answer": "3"
+  },
+  {
+    "question": "해당 캐릭터의 이름은?",
+    "isObjective": false,
+    "opt": null,
+    "exImg": "https://picsum.photos/360/240",
+    "exText": "",
+    "answer": "큐디"
+  },
+  {
+    "question": "테스트 문제입니다.",
+    "isObjective": true,
+    "opt": ["", "", "", ""],
+    "exImg": "https://picsum.photos/240/360",
+    "exText": "테스트 텍스트",
+    "answer": "2"
+  }
+]

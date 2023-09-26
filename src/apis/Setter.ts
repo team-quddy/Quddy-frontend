@@ -3,17 +3,19 @@
 import getInstance from ".";
 import { ResponseListType } from "../types/response";
 import { SearchOption } from "../types/search";
-import { ExamEditType, ExamTemplateType, ExamType, ProblemType } from "../types/types";
+import { ExamEditType, ExamTemplateDetailType, ExamTemplateType, ExamType, PK, ProblemType } from "../types/types";
 
 // sample data
 import SampleExamList from "./sample/Exam.json";
+import SampleProblem from "./sample/Problem.json";
+import SampleThumbnail from "../assets/imgs/temp_thumbnail.png";
 
 /**
  * [GET] 문제집 템플릿 목록 요청
  * @param option 검색 옵션
  */
 export async function getExamTemplateList(searchOption: SearchOption): Promise<ResponseListType<ExamTemplateType>> {
-  // TODO : 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
+  // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
   const list: ExamTemplateType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.lastId}` }));
   return {
@@ -23,12 +25,31 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
   return await getInstance().get("/template", { params: searchOption });
 }
 
+export async function getExamTemplateById(id: PK): Promise<ExamTemplateDetailType<ProblemType>> {
+  // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
+  await new Promise((res) => setTimeout(res, 500));
+  const thumbnail = SampleThumbnail;
+
+  return {
+    title: "테스트 입력입니다",
+    date: "2020/09/26",
+    scrap: 100,
+    cnt: 5,
+    thumbnail,
+    ref: "",
+    owner: "비가츄",
+    problems: SampleProblem,
+  };
+
+  return await getInstance().get(`/template/${id}`);
+}
+
 /**
  * [GET] 나의 문제집 목록 요청
  * @param option 검색 옵션
  */
 export async function getExamList(searchOption: SearchOption): Promise<ResponseListType<ExamType>> {
-  // TODO : 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
+  // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
   const list: ExamType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.lastId}` }));
   return {
