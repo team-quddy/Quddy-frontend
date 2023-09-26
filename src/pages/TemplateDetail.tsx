@@ -12,6 +12,16 @@ const TemplateDetail = () => {
   const query = useQuery(["templateDetail", id], () => getExamTemplateById(id));
   const { data } = query;
 
+  /** 템플릿 공유 이벤트 */
+  const onShareTemplate = () => {
+    // TODO: 템플릿 공유 이벤트 추가
+  };
+
+  /** 템플릿 사용 이벤트 */
+  const onUseTemplate = () => {
+    // TODO: edit 페이지와의 연동 이벤트 추가
+  };
+
   return (
     <TemplateDetailComponent>
       <main>
@@ -32,10 +42,10 @@ const TemplateDetail = () => {
               </div>
             </div>
             <div className="interact-area">
-              <button type="button" className="share-template-btn">
+              <button type="button" onClick={onShareTemplate} className="share-template-btn">
                 템플릿 공유하기 <TbShare2 />
               </button>
-              <button type="button" className="use-template-btn">
+              <button type="button" onClick={onUseTemplate} className="use-template-btn">
                 이 템플릿으로 만들기
               </button>
             </div>
