@@ -15,10 +15,14 @@ export interface ExamType extends ExamInterface {
 }
 
 export interface ExamTemplateType extends ExamInterface {
-  nickname: string; // 사용자 닉네임
+  owner: string; // 사용자 닉네임
 }
 
 export interface ExamDetailType<T> extends ExamType {
+  problems: T[];
+}
+
+export interface ExamTemplateDetailType<T> extends Omit<ExamTemplateType, "id"> {
   problems: T[];
 }
 

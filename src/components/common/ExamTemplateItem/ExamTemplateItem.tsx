@@ -27,7 +27,7 @@ const ExamTemplateItem = ({ exam }: Props) => {
         </div>
       </div>
       <p>{exam.title}</p>
-      <span>{exam.nickname}</span>
+      <span>{exam.owner}</span>
     </ExamTemplateItemComponent>
   );
 };
