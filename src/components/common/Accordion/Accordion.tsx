@@ -16,7 +16,7 @@ const Accordion = ({ className = "", id, children }: Props) => {
   useEffect(() => {
     if (!divRef.current) return;
     if (open) divRef.current.style.height = divRef.current.scrollHeight + "px";
-    else divRef.current.style.height = "40px";
+    else divRef.current.style.height = "48px";
 
     const target = divRef.current;
 
@@ -53,7 +53,7 @@ const AccordionComponent = styled.div`
   box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.25);
 
   & > .header {
-    min-height: 40px;
+    min-height: 48px;
     width: calc(100% - 16px);
     transition: max-height 1s;
     margin: 0 8px;
@@ -91,7 +91,7 @@ const AccordionComponent = styled.div`
     white-space: nowrap;
 
     & > .header {
-      max-height: 40px;
+      max-height: 48px;
 
       & > *:first-child {
         flex: 1 1 0;
