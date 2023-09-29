@@ -25,6 +25,10 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
   return await getInstance().get("/template", { params: searchOption });
 }
 
+/**
+ * [GET] 문제집 템플릿 상세 정보 요청
+ * @param id 문제집 아이디
+ */
 export async function getExamTemplateById(id: PK): Promise<ExamTemplateDetailType<ProblemType>> {
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
