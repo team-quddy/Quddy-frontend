@@ -3,7 +3,16 @@
 import getInstance from ".";
 import { ResponseListType } from "../types/response";
 import { SearchOption } from "../types/search";
-import { ExamEditType, ExamTemplateDetailType, ExamTemplateType, ExamType, PK, ProblemType } from "../types/types";
+import {
+  ExamDetailStatType,
+  ExamEditType,
+  ExamTemplateDetailType,
+  ExamTemplateType,
+  ExamType,
+  PK,
+  ProblemStatType,
+  ProblemType,
+} from "../types/types";
 
 // sample data
 import SampleExamList from "./sample/Exam.json";
@@ -25,6 +34,10 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
   return await getInstance().get("/template", { params: searchOption });
 }
 
+/**
+ * [GET] 문제집 템플릿 상세 정보 요청
+ * @param id 문제집 아이디
+ */
 export async function getExamTemplateById(id: PK): Promise<ExamTemplateDetailType<ProblemType>> {
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   await new Promise((res) => setTimeout(res, 500));
@@ -57,6 +70,32 @@ export async function getExamList(searchOption: SearchOption): Promise<ResponseL
     lastId: list[list.length - 1].id,
   };
   return await getInstance().get("/setter", { params: searchOption });
+}
+
+/**
+ * [GET] 나의 문제집 상세 정보 요청
+ * @param id 문제집 아이디
+ * @returns
+ */
+export async function getExamById(id: PK): Promise<ExamDetailStatType<ProblemStatType>> {
+  // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
+  await new Promise((res) => setTimeout(res, 500));
+  const thumbnail = SampleThumbnail;
+  const problems: ProblemStatType[] = SampleProblem.map((item, idx) => ({ ...item, correct: 10 * (idx + 1) }));
+
+  return {
+    title: "테스트 입력입니다",
+    date: "2020/09/26",
+    scrap: 100,
+    cnt: 5,
+    thumbnail,
+    ref: "",
+    total: 50,
+    isPublic: false,
+    problems,
+  };
+
+  return await getInstance().get(`/template/${id}`);
 }
 
 /**

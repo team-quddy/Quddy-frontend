@@ -1,5 +1,6 @@
 type PK = string;
 
+/** 시험지 타입 */
 interface ExamInterface {
   title: string; // 제목
   date: string; // 출제날짜
@@ -22,6 +23,10 @@ export interface ExamDetailType<T> extends ExamType {
   problems: T[];
 }
 
+export interface ExamDetailStatType<T> extends Omit<ExamDetailType<T>, "id"> {
+  total: number;
+}
+
 export interface ExamTemplateDetailType<T> extends Omit<ExamTemplateType, "id"> {
   problems: T[];
 }
@@ -35,6 +40,7 @@ export interface BannerType {
   alt: string; // 설명
 }
 
+/** 문제 타입 */
 export interface ProblemType {
   question: string; // 문항
   isObjective: boolean; // 문제 유형
@@ -44,7 +50,7 @@ export interface ProblemType {
   answer: string; // 정답
 }
 
-export interface ProblemStatisticalType extends ProblemType {
+export interface ProblemStatType extends ProblemType {
   correct: number; // 정답자 수
 }
 
