@@ -2,14 +2,21 @@ import { styled } from "styled-components";
 import { ExamTemplateType } from "../../../types/types";
 import { TbGitFork } from "react-icons/tb";
 import { num2str } from "../../../utils/string";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   exam: ExamTemplateType;
 }
 
 const ExamTemplateItem = ({ exam }: Props) => {
+  const navigate = useNavigate();
+
+  const onMoveDetail = () => {
+    navigate(exam.id);
+  };
+
   return (
-    <ExamTemplateItemComponent>
+    <ExamTemplateItemComponent onClick={onMoveDetail}>
       <div>
         <img src={exam.thumbnail} />
 

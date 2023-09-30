@@ -13,8 +13,13 @@ const TemplateDetail = () => {
   const { data } = query;
 
   /** 템플릿 공유 이벤트 */
-  const onShareTemplate = () => {
-    // TODO: 템플릿 공유 이벤트 추가
+  const onShareTemplate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const url = `${import.meta.env.VITE_APP_CLIENT_URL}/template/${id}`;
+    navigator.clipboard.writeText(url);
+
+    // TODO: 사용자에게 알림 제공
+    alert("클립보드에 복사되었습니다!");
   };
 
   /** 템플릿 사용 이벤트 */

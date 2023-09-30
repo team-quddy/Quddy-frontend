@@ -14,8 +14,13 @@ const ExamDetail = () => {
   const { data } = query;
 
   /** 템플릿 공유 이벤트 */
-  const onShareTemplate = () => {
-    // TODO: 템플릿 공유 이벤트 추가
+  const onShareTemplate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const url = `${import.meta.env.VITE_APP_CLIENT_URL}/template/${id}`;
+    navigator.clipboard.writeText(url);
+
+    // TODO: 사용자에게 알림 제공
+    alert("클립보드에 복사되었습니다!");
   };
 
   /** 변경 이벤트 */
@@ -24,8 +29,13 @@ const ExamDetail = () => {
   };
 
   /** 문제집 응시 링크 공유 이벤트 */
-  const onShareExam = () => {
-    // TODO: 문제집 응시 링크 공유하기
+  const onShareExam = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    const url = `${import.meta.env.VITE_APP_CLIENT_URL}/solver/${id}`;
+    navigator.clipboard.writeText(url);
+
+    // TODO: 사용자에게 알림 제공
+    alert("클립보드에 응시링크가 복사되었습니다!");
   };
 
   /** 평균 점수 */
