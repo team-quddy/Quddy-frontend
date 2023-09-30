@@ -6,6 +6,7 @@ import Template from "./pages/Template";
 import ExamList from "./pages/ExamList";
 import Edit from "./pages/Edit";
 import TemplateDetail from "./pages/TemplateDetail";
+import ExamDetail from "./pages/ExamDetail";
 
 function App() {
   return (
@@ -17,7 +18,10 @@ function App() {
           <Route path="" element={<Template />} />
           <Route path=":id" element={<TemplateDetail />} />
         </Route>
-        <Route path="exam" element={<ExamList />} />
+        <Route path="exam">
+          <Route path="" element={<ExamList />} />
+          <Route path=":id" element={<ExamDetail />} />
+        </Route>
         <Route path="edit" element={<Edit />} />
       </Routes>
     </AppComponent>
