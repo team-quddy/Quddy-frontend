@@ -21,18 +21,17 @@ const Template = () => {
 
   // 검색 결과 변경 시 리스트 초기화(로딩 표기용)
   useEffect(() => {
-    if (query.status === "loading" && !option.lastId) setList([]);
-  }, [query.status, option.lastId]);
+    if (query.status === "loading" && option.page == 0) setList([]);
+  }, [query.status, option.page]);
 
   // 요청 결과를 list에 저장
   useEffect(() => {
     if (!query.data) return;
-    if (!option.lastId) setList([...query.data.list]);
+    if (query.data.page === 0) setList(query.data.list);
     else setList((pre) => [...pre, ...query.data.list]);
-    setLastId(query.data.lastId);
-  }, [option.lastId, query.data]);
+  }, [query.data]);
 
-  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, lastId })), 1000);
+  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, page: option.page + 1 })), 1000);
 
   // 스크롤 이벤트
   const onScroll = (e: React.UIEvent) => {
@@ -54,14 +53,14 @@ const Template = () => {
         <section>
           <SearchInput
             search={keyword}
-            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, lastId: null }))}
+            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, page: 0 }))}
             placeholder="관심있는 키워드를 검색해보세요"
           />
 
           {/* 헤더 */}
           <div className="header">
             <h1>문제집 템플릿</h1>
-            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, lastId: null }))} />
+            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, page: 0 }))} />
           </div>
 
           {/* 템플릿 목록 */}

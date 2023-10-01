@@ -17,24 +17,22 @@ import TopBtn from "../components/common/TopBtn/TopBtn";
 
 const ExamList = () => {
   const [list, setList] = useState<ExamType[]>([]);
-  const [lastId, setLastId] = useState<PK | null>(null);
   const [option, setOption, query] = useSearch<ResponseListType<ExamType>>(getExamList);
   const { keyword, sort } = option;
 
-  // 검색 결과 변경 시 리스트 초기화(로딩 표기용)
+  // 검색 결과 변경 시 리스트 초기화
   useEffect(() => {
-    if (query.status === "loading" && !option.lastId) setList([]);
-  }, [query.status, option.lastId]);
+    if (query.status === "loading" && option.page == 0) setList([]);
+  }, [query.status, option.page]);
 
   // 요청 결과를 list에 저장
   useEffect(() => {
     if (!query.data) return;
-    if (!option.lastId) setList([...query.data.list]);
+    if (query.data.page === 0) setList(query.data.list);
     else setList((pre) => [...pre, ...query.data.list]);
-    setLastId(query.data.lastId);
-  }, [option.lastId, query.data]);
+  }, [query.data]);
 
-  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, lastId })), 1000);
+  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, page: option.page + 1 })), 1000);
 
   // 스크롤 이벤트
   const onScroll = (e: React.UIEvent) => {
@@ -56,7 +54,7 @@ const ExamList = () => {
         <section>
           <SearchInput
             search={keyword}
-            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, lastId: null }))}
+            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, page: 0 }))}
             placeholder="문제집명을 검색해 빠르게 찾아보세요"
           />
 
@@ -68,7 +66,7 @@ const ExamList = () => {
                 <TbPlus />
               </NavLink>
             </div>
-            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, lastId: null }))} />
+            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, page: 0 }))} />
           </div>
 
           {/* 템플릿 목록 */}
