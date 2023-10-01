@@ -11,7 +11,7 @@ const ExamItem = ({ exam }: Props) => {
   const navigate = useNavigate();
 
   const onMoveDetail = () => {
-    navigate(exam.id);
+    navigate(`/exam/${exam.id}`);
   };
 
   /** 문제집 응시 링크 공유 이벤트 */
