@@ -9,7 +9,7 @@ const useSearch = <T>(
     keyword: "",
     target: SearchTarget.title,
     sort: Sort.popular,
-    lastId: null,
+    page: 0,
     size: 15,
   });
   const query = useQuery(["searchData", option], () => func(option));
