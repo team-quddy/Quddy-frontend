@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
 import { useQuery } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ const ExamDetail = () => {
   const id = useParams().id as string;
   const query = useQuery(["examDetail", id], () => getExamById(id));
   const { data } = query;
+  const navigate = useNavigate();
 
   /** 템플릿 공유 이벤트 */
   const onShareTemplate = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,7 +26,7 @@ const ExamDetail = () => {
 
   /** 변경 이벤트 */
   const onModify = () => {
-    // TODO: edit 페이지와의 연동 이벤트 추가
+    navigate(`/edit?id=${id}`);
   };
 
   /** 문제집 응시 링크 공유 이벤트 */

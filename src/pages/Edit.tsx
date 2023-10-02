@@ -5,8 +5,11 @@ import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
-import { postExam } from "../apis/Setter";
+import { getInitialExamData, postExam } from "../apis/Setter";
 import { compressImage } from "../utils/image";
+import { useSearchParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../components/common/Loading/Loading";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
@@ -20,6 +23,14 @@ const Edit = () => {
     problems: [],
   });
   const [problemCnt, setProblemCnt] = useState<number>(0);
+  const [searchParams] = useSearchParams();
+
+  const { status } = useQuery(["initExam"], async () => {
+    const initialData = await getInitialExamData(searchParams.get("id"), searchParams.get("template"));
+    setData(initialData);
+    setProblemCnt(initialData.problems.length);
+    return initialData;
+  });
 
   // 썸네일 변경 이벤트
   const onChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,6 +147,12 @@ const Edit = () => {
 
   return (
     <EditComponent>
+      {status === "loading" ? (
+        <div className="loading">
+          <Loading />
+        </div>
+      ) : undefined}
+
       <BackBtn />
       <section className="exam-info">
         <div className="thumbnail">
@@ -206,6 +223,19 @@ const EditComponent = styled.div`
 
   display: flex;
   flex-direction: column;
+
+  & > .loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   & > button {
     align-self: flex-start;

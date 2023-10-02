@@ -64,6 +64,7 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
                 <div className="opt-no">{idx + 1}</div>
                 <input
                   type="text"
+                  id={`answer-text-${problem.key}-${idx}`}
                   onChange={onChangeOption}
                   data-no={idx}
                   value={item || ""}
@@ -72,12 +73,12 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
                 <input
                   type="radio"
                   onChange={onChangeAnswer}
-                  id={`answer-${idx}`}
-                  name="answer"
-                  defaultChecked={idx == Number(problem.answer)}
+                  id={`answer-${problem.key}-${idx}`}
+                  name={`answer-${problem.key}`}
+                  defaultChecked={idx === Number(problem.answer)}
                   value={idx}
                 />
-                <label htmlFor={`answer-${idx}`} />
+                <label htmlFor={`answer-${problem.key}-${idx}`} />
               </div>
             ))}
           </div>
