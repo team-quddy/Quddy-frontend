@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import GuideBanner from "../assets/imgs/guide_banner.png";
 import useSearch from "../hooks/useSearch";
-import { ExamType, PK } from "../types/types";
+import { ExamType } from "../types/types";
 import { getExamList } from "../apis/Setter";
 import SearchInput from "../components/common/Search/SearchInput";
 import SearchSorter from "../components/common/Search/SearchSorter";

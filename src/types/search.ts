@@ -1,5 +1,3 @@
-import { PK } from "./types";
-
 export const enum Sort {
   latest = "latest",
   popular = "popular",

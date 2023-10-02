@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import GuideBanner from "../assets/imgs/guide_banner.png";
 import useSearch from "../hooks/useSearch";
-import { ExamTemplateType, PK } from "../types/types";
+import { ExamTemplateType } from "../types/types";
 import { getExamTemplateList } from "../apis/Setter";
 import SearchInput from "../components/common/Search/SearchInput";
 import SearchSorter from "../components/common/Search/SearchSorter";
@@ -15,7 +15,6 @@ import TopBtn from "../components/common/TopBtn/TopBtn";
 
 const Template = () => {
   const [list, setList] = useState<ExamTemplateType[]>([]);
-  const [lastId, setLastId] = useState<PK | null>(null);
   const [option, setOption, query] = useSearch<ResponseListType<ExamTemplateType>>(getExamTemplateList);
   const { keyword, sort } = option;
 
