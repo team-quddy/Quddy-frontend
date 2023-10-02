@@ -10,6 +10,7 @@ import {
   ExamTemplateType,
   ExamType,
   PK,
+  ProblemKeyType,
   ProblemStatType,
   ProblemType,
 } from "../types/types";
@@ -114,4 +115,30 @@ export async function postExam(exam: ExamEditType<ProblemType>): Promise<void> {
 
   exam.problems = problems;
   return await getInstance().post<ExamEditType<ProblemType>, void>("/setter", exam);
+}
+
+/**
+ * [GET] 문제집 수정 초기값 요청
+ * @param id 아이디
+ * @param template 템플릿 여부
+ * @returns
+ */
+export async function getInitialExamData(
+  id: PK | null = "",
+  template: string | null = ""
+): Promise<ExamEditType<ProblemKeyType>> {
+  if (!id) {
+    return { isPublic: false, title: "", date: "2023/09/10", cnt: 0, thumbnail: "", ref: "", id: "", problems: [] };
+  }
+  if (!template) {
+    const res = await getExamById(id);
+    const problems = res.problems.map((item, idx) => ({ ...item, key: idx }));
+    const result: ExamEditType<ProblemKeyType> = { ...res, problems, id };
+    return result;
+  } else {
+    const res = await getExamTemplateById(id);
+    const problems = res.problems.map((item, idx) => ({ ...item, key: idx }));
+    const result: ExamEditType<ProblemKeyType> = { ...res, problems, id, isPublic: true };
+    return result;
+  }
 }
