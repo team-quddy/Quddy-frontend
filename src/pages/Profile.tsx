@@ -124,7 +124,9 @@ const ProfileComponent = styled.main`
     }
 
     & .log-stat {
-      margin: 20px 12px;
+      margin: 20px auto;
+      width: calc(100% - 24px);
+      max-width: 400px;
       display: flex;
       align-items: center;
       justify-content: space-between;
