@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
 
 const getInstance = () =>
   axios.create({
@@ -8,7 +8,7 @@ const getInstance = () =>
     timeout: 2000,
     headers: {
       "Content-Type": "application/json",
-      // "Access-Control-Allow-Origin": BASE_URL,
+      "Access-Control-Allow-Origin": BASE_URL,
     },
     withCredentials: true,
   });

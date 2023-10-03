@@ -7,8 +7,10 @@ import ExamList from "./pages/ExamList";
 import Edit from "./pages/Edit";
 import TemplateDetail from "./pages/TemplateDetail";
 import ExamDetail from "./pages/ExamDetail";
+import { getTestApi } from "./apis/Setter";
 
 function App() {
+  getTestApi();
   return (
     <AppComponent>
       <TopNav />
