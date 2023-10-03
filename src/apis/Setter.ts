@@ -21,18 +21,28 @@ import SampleProblem from "./sample/Problem.json";
 import SampleThumbnail from "../assets/imgs/temp_thumbnail.png";
 
 /**
+ * [GET] 테스트 요청
+ */
+export async function getTestApi() {
+  const res = await getInstance().get("");
+  console.dir(res);
+}
+
+/**
  * [GET] 문제집 템플릿 목록 요청
  * @param option 검색 옵션
  */
 export async function getExamTemplateList(searchOption: SearchOption): Promise<ResponseListType<ExamTemplateType>> {
+  const res = await getInstance().get("/template", { params: searchOption });
+  console.dir(res);
+
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
-  await new Promise((res) => setTimeout(res, 500));
+  // await new Promise((res) => setTimeout(res, 500));
   const list: ExamTemplateType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` }));
   return {
     list,
     page: searchOption.page,
   };
-  return await getInstance().get("/template", { params: searchOption });
 }
 
 /**
