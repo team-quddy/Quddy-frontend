@@ -57,3 +57,11 @@ export interface ProblemStatType extends ProblemType {
 export interface ProblemKeyType extends ProblemType {
   key: number;
 }
+
+export interface UserInfoType {
+  nickname: string;
+  id: PK;
+  examCnt: number;
+  publicExamCnt: number;
+  scrapCnt: number;
+}

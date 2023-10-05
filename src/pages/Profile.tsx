@@ -1,8 +1,13 @@
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
 import { TbClipboard, TbSettings, TbUser } from "react-icons/tb";
+import Regist from "../components/common/Regist/Regist";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "../apis/Setter";
 
 const Profile = () => {
+  const query = useQuery(["getUser"], getUserInfo, { retry: 2 });
+
   return (
     <ProfileComponent>
       <BackBtn />
@@ -47,6 +52,8 @@ const Profile = () => {
         <h2>응시한 문제집</h2>
         <p className="empty">아직 응시기록이 없습니다.</p>
       </section>
+
+      {query.isInitialLoading || <Regist refetch={query.refetch} initialVsibility={query.isSuccess} />}
     </ProfileComponent>
   );
 };
