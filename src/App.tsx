@@ -7,7 +7,7 @@ import ExamList from "./pages/ExamList";
 import Edit from "./pages/Edit";
 import TemplateDetail from "./pages/TemplateDetail";
 import ExamDetail from "./pages/ExamDetail";
-import { getTestApi } from "./apis/Setter";
+import Profile from "./pages/Profile";
 
 function App() {
   getTestApi();
@@ -25,6 +25,7 @@ function App() {
           <Route path=":id" element={<ExamDetail />} />
         </Route>
         <Route path="edit" element={<Edit />} />
+        <Route path="profile" element={<Profile />} />
       </Routes>
     </AppComponent>
   );

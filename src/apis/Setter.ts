@@ -13,12 +13,27 @@ import {
   ProblemKeyType,
   ProblemStatType,
   ProblemType,
+  UserInfoType,
 } from "../types/types";
 
 // sample data
-import SampleExamList from "./sample/Exam.json";
-import SampleProblem from "./sample/Problem.json";
-import SampleThumbnail from "../assets/imgs/temp_thumbnail.png";
+// import SampleExamList from "./sample/Exam.json";
+// import SampleProblem from "./sample/Problem.json";
+// import SampleThumbnail from "../assets/imgs/temp_thumbnail.png";
+// import axios from "axios";
+
+export async function getUserInfo(): Promise<UserInfoType> {
+  return getInstance().get("/user");
+}
+
+/**
+ * [POST] 유저 간편 생성 요청
+ * @param nickname 닉네임
+ * @returns
+ */
+export async function postCreateUser(nickname: string): Promise<void> {
+  return await getInstance().post("", { nickname });
+}
 
 /**
  * [GET] 테스트 요청
@@ -38,9 +53,14 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
 
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
   // await new Promise((res) => setTimeout(res, 500));
-  const list: ExamTemplateType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` }));
+  // const list: ExamTemplateType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` }));
+  // return {
+  //   list,
+  //   page: searchOption.page,
+  // };
+  const { data } = await getInstance().get("/template", { params: searchOption });
   return {
-    list,
+    list: data.exams,
     page: searchOption.page,
   };
 }
@@ -51,19 +71,19 @@ export async function getExamTemplateList(searchOption: SearchOption): Promise<R
  */
 export async function getExamTemplateById(id: PK): Promise<ExamTemplateDetailType<ProblemType>> {
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
-  await new Promise((res) => setTimeout(res, 500));
-  const thumbnail = SampleThumbnail;
+  // await new Promise((res) => setTimeout(res, 500));
+  // const thumbnail = SampleThumbnail;
 
-  return {
-    title: "테스트 입력입니다",
-    date: "2020/09/26",
-    scrap: 100,
-    cnt: 5,
-    thumbnail,
-    ref: "",
-    owner: "비가츄",
-    problems: SampleProblem,
-  };
+  // return {
+  //   title: "테스트 입력입니다",
+  //   date: "2020/09/26",
+  //   scrap: 100,
+  //   cnt: 5,
+  //   thumbnail,
+  //   ref: "",
+  //   owner: "비가츄",
+  //   problems: SampleProblem,
+  // };
 
   return await getInstance().get(`/template/${id}`);
 }
@@ -74,13 +94,17 @@ export async function getExamTemplateById(id: PK): Promise<ExamTemplateDetailTyp
  */
 export async function getExamList(searchOption: SearchOption): Promise<ResponseListType<ExamType>> {
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
-  await new Promise((res) => setTimeout(res, 500));
-  const list: ExamType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` }));
+  // await new Promise((res) => setTimeout(res, 500));
+  // const list: ExamType[] = SampleExamList.map((item) => ({ ...item, id: `${item.id}${searchOption.page}` }));
+  // return {
+  //   list,
+  //   page: searchOption.page,
+  // };
+  const { data } = await getInstance().get("/setter/exam", { params: searchOption });
   return {
-    list,
+    list: data.exams,
     page: searchOption.page,
   };
-  return await getInstance().get("/setter", { params: searchOption });
 }
 
 /**
@@ -90,21 +114,21 @@ export async function getExamList(searchOption: SearchOption): Promise<ResponseL
  */
 export async function getExamById(id: PK): Promise<ExamDetailStatType<ProblemStatType>> {
   // TODO: 임시 이벤트이므로 추후 api 명세에 따라 수정 필요
-  await new Promise((res) => setTimeout(res, 500));
-  const thumbnail = SampleThumbnail;
-  const problems: ProblemStatType[] = SampleProblem.map((item, idx) => ({ ...item, correct: 10 * (idx + 1) }));
+  // await new Promise((res) => setTimeout(res, 500));
+  // const thumbnail = SampleThumbnail;
+  // const problems: ProblemStatType[] = SampleProblem.map((item, idx) => ({ ...item, correct: 10 * (idx + 1) }));
 
-  return {
-    title: "테스트 입력입니다",
-    date: "2020/09/26",
-    scrap: 100,
-    cnt: 5,
-    thumbnail,
-    ref: "",
-    total: 50,
-    isPublic: false,
-    problems,
-  };
+  // return {
+  //   title: "테스트 입력입니다",
+  //   date: "2020/09/26",
+  //   scrap: 100,
+  //   cnt: 5,
+  //   thumbnail,
+  //   ref: "",
+  //   total: 50,
+  //   isPublic: false,
+  //   problems,
+  // };
 
   return await getInstance().get(`/template/${id}`);
 }
@@ -124,7 +148,7 @@ export async function postExam(exam: ExamEditType<ProblemType>): Promise<void> {
   }));
 
   exam.problems = problems;
-  return await getInstance().post<ExamEditType<ProblemType>, void>("/setter", exam);
+  return await getInstance().post<ExamEditType<ProblemType>, void>("/setter/exam", exam);
 }
 
 /**
