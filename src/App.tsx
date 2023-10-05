@@ -10,6 +10,7 @@ import ExamDetail from "./pages/ExamDetail";
 import Profile from "./pages/Profile";
 
 function App() {
+  getTestApi();
   return (
     <AppComponent>
       <TopNav />
