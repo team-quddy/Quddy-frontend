@@ -23,7 +23,8 @@ import {
 // import axios from "axios";
 
 export async function getUserInfo(): Promise<UserInfoType> {
-  return getInstance().get("/user");
+  const { data } = await getInstance().get("/user");
+  return data;
 }
 
 /**
