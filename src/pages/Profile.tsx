@@ -18,10 +18,10 @@ const Profile = () => {
           </div>
 
           <div className="user-id">
-            <p>{query.data?.nickname ?? "-"}</p>
+            <p>{query.data ? query.data.nickname : "-"}</p>
             <button type="button">
               <b>ID </b>
-              {query.data?.id ?? "-"}
+              {query.data ? query.data.id : "-"}
               <TbClipboard />
             </button>
           </div>
@@ -34,17 +34,17 @@ const Profile = () => {
         <div className="log-stat">
           <div>
             <p>만든 문제집</p>
-            <p>{query.data?.examCnt ?? "-"}</p>
+            <p>{query.data ? query.data.examCnt : "-"}</p>
           </div>
 
           <div>
             <p>공개 문제집</p>
-            <p>{query.data?.publicExamCnt ?? "-"}</p>
+            <p>{query.data ? query.data.publicExamCnt : "-"}</p>
           </div>
 
           <div>
             <p>좋아요 수</p>
-            <p>{query.data?.scrapCnt ?? "-"}</p>
+            <p>{query.data ? query.data.scrapCnt : "-"}</p>
           </div>
         </div>
       </section>
