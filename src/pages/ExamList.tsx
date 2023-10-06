@@ -14,6 +14,7 @@ import ExamItem from "../components/common/ExamItem/ExamItem";
 import { TbPlus } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import TopBtn from "../components/common/TopBtn/TopBtn";
+import ExamEmpty from "../components/Setter/Exam/ExamEmpty/ExamEmpty";
 
 const ExamList = () => {
   const [list, setList] = useState<ExamType[]>([]);
@@ -80,13 +81,16 @@ const ExamList = () => {
           <div className={`loading ${query.status === "loading" ? "visible" : ""}`}>
             <Loading />
           </div>
+
+          {query.status !== "loading" && !list.length ? <ExamEmpty /> : undefined}
+
           {list.length && query.data && query.data.list.length < option.size ? (
             <p className="endline">목록의 마지막입니다</p>
           ) : undefined}
         </section>
       </div>
       <TopBtn />
-      <Footer />
+      {query.status === "loading" || <Footer />}
     </TemplateComponent>
   );
 };
@@ -100,6 +104,10 @@ const TemplateComponent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  & > div:first-child {
+    flex: 1 1 0;
+  }
 
   & .guide-banner {
     width: 100%;
