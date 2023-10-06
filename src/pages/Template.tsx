@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { ResponseListType } from "../types/response";
 import { throttle } from "lodash";
 import TopBtn from "../components/common/TopBtn/TopBtn";
+import TemplateEmpty from "../components/Setter/Template/TemplateEmpty/TemplateEmpty";
 
 const Template = () => {
   const [list, setList] = useState<ExamTemplateType[]>([]);
@@ -73,13 +74,17 @@ const Template = () => {
           <div className={`loading ${query.status === "loading" ? "visible" : ""}`}>
             <Loading />
           </div>
+
+          {query.status !== "loading" && !list.length ? <TemplateEmpty /> : undefined}
+
           {list.length && query.data && query.data.list.length < option.size ? (
             <p className="endline">목록의 마지막입니다</p>
           ) : undefined}
         </section>
       </div>
       <TopBtn />
-      <Footer />
+
+      {query.status === "loading" || <Footer />}
     </TemplateComponent>
   );
 };
@@ -93,6 +98,10 @@ const TemplateComponent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  & > div:first-child {
+    flex: 1 1 0;
+  }
 
   & .guide-banner {
     width: 100%;
