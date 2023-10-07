@@ -2,7 +2,7 @@ import { TbCameraPlus, TbPlus } from "react-icons/tb";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
 import Toggle from "../components/common/Toggle/Toggle";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
 import { getInitialExamData, getUserInfo, postExam, putExam } from "../apis/Setter";
@@ -52,6 +52,10 @@ const Edit = () => {
     else id = await postExam(data);
     navigate(`/exam/${id}`);
   });
+
+  const loading = useMemo(() => {
+    return results[1].status === "loading" || mutation.status === "loading";
+  }, [results, mutation.status]);
 
   // 썸네일 변경 이벤트
   const onChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,7 +224,7 @@ const Edit = () => {
         출제하기
       </button>
 
-      {results[1].status === "loading" ? <LoadingPage /> : undefined}
+      {loading ? <LoadingPage /> : undefined}
       <Regist initialVsibility={openRegister} />
     </EditComponent>
   );
