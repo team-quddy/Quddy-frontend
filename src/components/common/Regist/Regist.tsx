@@ -1,23 +1,23 @@
 import { styled } from "styled-components";
 import QuddySvg from "../../../assets/imgs/quddy.svg";
 import DubbySvg from "../../../assets/imgs/dubby.svg";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { postCreateUser } from "../../../apis/Setter";
-import { QueryObserverResult, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
-  refetch(): Promise<QueryObserverResult>;
   initialVsibility: boolean;
+  invalidateTarget?: string;
 }
 
-const Regist = ({ refetch, initialVsibility }: Props) => {
+const Regist = ({ initialVsibility, invalidateTarget }: Props) => {
   const [nickname, setNickname] = useState<string>("");
-  const mutation = useMutation(() => postCreateUser(nickname), { onSuccess: () => refetch() });
-  const memo = useMemo(() => initialVsibility, []);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(() => postCreateUser(nickname), {
+    onSuccess: () => invalidateTarget && queryClient.invalidateQueries([invalidateTarget]),
+  });
 
-  console.log(memo);
-
-  if (memo) return <></>;
+  if (initialVsibility) return <></>;
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
