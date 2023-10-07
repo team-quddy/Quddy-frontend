@@ -116,6 +116,29 @@ export async function postExam(exam: ExamEditType<ProblemType>): Promise<PK> {
 }
 
 /**
+ * [PUT] 문제집 변경 요청
+ * @param exam
+ * @returns
+ */
+export async function putExam(id: PK, exam: ExamEditType<ProblemType>): Promise<PK> {
+  // 불필요한 field 삭제 & opt stringify
+  const problems: ResponseProblemType[] = exam.problems.map(
+    ({ question, isObjective, answer, opt, exImg, exText }) => ({
+      question,
+      isObjective,
+      answer,
+      opt: opt ? JSON.stringify(opt) : null,
+      exImg,
+      exText,
+    })
+  );
+
+  const data = { ...exam, problems };
+  const res = await getInstance().put<ExamEditType<ProblemType>, AxiosResponse<{ id: PK }>>(`/setter/exam/${id}`, data);
+  return res.data.id;
+}
+
+/**
  * [GET] 문제집 수정 초기값 요청
  * @param id 아이디
  * @param template 템플릿 여부

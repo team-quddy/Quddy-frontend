@@ -5,11 +5,12 @@ import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
-import { getInitialExamData, postExam } from "../apis/Setter";
+import { getInitialExamData, getUserInfo, postExam, putExam } from "../apis/Setter";
 import { compressImage } from "../utils/image";
-import { useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import Loading from "../components/common/Loading/Loading";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMutation, useQueries } from "@tanstack/react-query";
+import Regist from "../components/common/Regist/Regist";
+import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
@@ -22,14 +23,34 @@ const Edit = () => {
     id: "",
     problems: [],
   });
+  const [openRegister, setOpenRegister] = useState<boolean>(true);
   const [problemCnt, setProblemCnt] = useState<number>(0);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const { status } = useQuery(["initExam"], async () => {
-    const initialData = await getInitialExamData(searchParams.get("id"), searchParams.get("template"));
-    setData(initialData);
-    setProblemCnt(initialData.problems.length);
-    return initialData;
+  const results = useQueries({
+    queries: [
+      { queryKey: ["checkUser"], queryFn: getUserInfo, retry: false, onError: () => setOpenRegister(false) },
+      {
+        queryKey: ["initExam"],
+        queryFn: async () => {
+          const initialData = await getInitialExamData(searchParams.get("id"), searchParams.get("template"));
+          setData(initialData);
+          setProblemCnt(initialData.problems.length);
+          return initialData;
+        },
+      },
+    ],
+  });
+
+  const mutation = useMutation(async () => {
+    let id = data.id;
+
+    // case 1: 문제집 id 있음(PUT)
+    if (id) id = await putExam(id, data);
+    // case 2: 문제집 id 없음(POST)
+    else id = await postExam(data);
+    navigate(`/exam/${id}`);
   });
 
   // 썸네일 변경 이벤트
@@ -136,23 +157,11 @@ const Edit = () => {
     });
 
     if (!pass) return;
-
-    // TODO: 문제집 id 유무에 따른 요청 처리
-    // case 1: 문제집 id 있음(PUT)
-    if (!data.id) {
-      await postExam(data);
-    }
-    // case 2: 문제집 id 없음(POST)
+    mutation.mutate();
   };
 
   return (
     <EditComponent>
-      {status === "loading" ? (
-        <div className="loading">
-          <Loading />
-        </div>
-      ) : undefined}
-
       <BackBtn />
       <section className="exam-info">
         <div className="thumbnail">
@@ -210,6 +219,9 @@ const Edit = () => {
       <button type="button" className="submit-btn" onClick={onSubmit}>
         출제하기
       </button>
+
+      {results[1].status === "loading" ? <LoadingPage /> : undefined}
+      <Regist initialVsibility={openRegister} />
     </EditComponent>
   );
 };
@@ -223,19 +235,6 @@ const EditComponent = styled.div`
 
   display: flex;
   flex-direction: column;
-
-  & > .loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.4);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   & > button {
     align-self: flex-start;
