@@ -5,10 +5,10 @@ import Toggle from "../components/common/Toggle/Toggle";
 import { useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
-import { getInitialExamData, getUserInfo, postExam } from "../apis/Setter";
+import { getInitialExamData, getUserInfo, postExam, putExam } from "../apis/Setter";
 import { compressImage } from "../utils/image";
-import { useSearchParams } from "react-router-dom";
-import { useQueries } from "@tanstack/react-query";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMutation, useQueries } from "@tanstack/react-query";
 import Regist from "../components/common/Regist/Regist";
 import LoadingPage from "../components/common/Loading/LoadingPage";
 
@@ -26,6 +26,7 @@ const Edit = () => {
   const [openRegister, setOpenRegister] = useState<boolean>(true);
   const [problemCnt, setProblemCnt] = useState<number>(0);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const results = useQueries({
     queries: [
@@ -40,6 +41,16 @@ const Edit = () => {
         },
       },
     ],
+  });
+
+  const mutation = useMutation(async () => {
+    let id = data.id;
+
+    // case 1: 문제집 id 있음(PUT)
+    if (id) id = await putExam(id, data);
+    // case 2: 문제집 id 없음(POST)
+    else id = await postExam(data);
+    navigate(`/exam/${id}`);
   });
 
   // 썸네일 변경 이벤트
@@ -146,14 +157,7 @@ const Edit = () => {
     });
 
     if (!pass) return;
-
-    // TODO: 문제집 id 유무에 따른 요청 처리
-    // case 1: 문제집 id 있음(PUT)
-    if (!data.id) {
-      const id = await postExam(data);
-      console.log(id);
-    }
-    // case 2: 문제집 id 없음(POST)
+    mutation.mutate();
   };
 
   return (
