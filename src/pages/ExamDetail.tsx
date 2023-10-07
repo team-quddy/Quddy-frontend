@@ -42,7 +42,7 @@ const ExamDetail = () => {
   /** 평균 점수 */
   const solverAvg: number = useMemo(() => {
     if (!data) return 100;
-    let sum = data.problems.reduce((_sum, problem) => _sum + problem.correct, 0);
+    const sum = data.problems.reduce((_sum, problem) => _sum + problem.correct, 0);
 
     // 최대 소수점 1자리까지 보여줍니다
     return Math.round((sum / (data.total * data.cnt)) * 1000) / 10;
