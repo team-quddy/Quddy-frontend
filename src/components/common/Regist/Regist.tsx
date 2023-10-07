@@ -7,13 +7,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   initialVsibility: boolean;
+  invalidateTarget?: string;
 }
 
-const Regist = ({ initialVsibility }: Props) => {
+const Regist = ({ initialVsibility, invalidateTarget }: Props) => {
   const [nickname, setNickname] = useState<string>("");
   const queryClient = useQueryClient();
   const mutation = useMutation(() => postCreateUser(nickname), {
-    onSuccess: () => queryClient.invalidateQueries(["getUser"]),
+    onSuccess: () => invalidateTarget && queryClient.invalidateQueries([invalidateTarget]),
   });
 
   if (initialVsibility) return <></>;

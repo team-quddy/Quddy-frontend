@@ -8,8 +8,8 @@ import { useState } from "react";
 import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const Profile = () => {
-  const [regist, setRegist] = useState<boolean>(false);
-  const query = useQuery(["getUser"], getUserInfo, { retry: 2, onSuccess: () => setRegist(true) });
+  const [regist, setRegist] = useState<boolean>(true);
+  const query = useQuery(["getUser"], getUserInfo, { retry: 2, onError: () => setRegist(false) });
 
   return (
     <ProfileComponent>
@@ -57,7 +57,7 @@ const Profile = () => {
         <p className="empty">아직 응시기록이 없습니다.</p>
       </section>
       {query.isLoading ? <LoadingPage /> : undefined}
-      {query.isInitialLoading || <Regist initialVsibility={regist} />}
+      <Regist initialVsibility={regist} invalidateTarget="getUser" />
     </ProfileComponent>
   );
 };
