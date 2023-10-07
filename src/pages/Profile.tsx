@@ -4,9 +4,12 @@ import { TbClipboard, TbSettings, TbUser } from "react-icons/tb";
 import Regist from "../components/common/Regist/Regist";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "../apis/Setter";
+import { useState } from "react";
+import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const Profile = () => {
-  const query = useQuery(["getUser"], getUserInfo, { retry: 2 });
+  const [regist, setRegist] = useState<boolean>(false);
+  const query = useQuery(["getUser"], getUserInfo, { retry: 2, onSuccess: () => setRegist(true) });
 
   return (
     <ProfileComponent>
@@ -53,8 +56,8 @@ const Profile = () => {
         <h2>응시한 문제집</h2>
         <p className="empty">아직 응시기록이 없습니다.</p>
       </section>
-
-      {query.isInitialLoading || <Regist refetch={query.refetch} initialVsibility={query.isSuccess} />}
+      {query.isLoading ? <LoadingPage /> : undefined}
+      {query.isInitialLoading || <Regist initialVsibility={regist} />}
     </ProfileComponent>
   );
 };
