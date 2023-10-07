@@ -10,7 +10,7 @@ const LoadingPage = () => {
 };
 
 const LoadingComponent = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 10000;
   pointer-events: none;
   top: 0;
