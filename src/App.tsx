@@ -1,16 +1,17 @@
 import { styled } from "styled-components";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import TopNav from "./components/common/TopNav/TopNav";
-import { Suspense } from "react";
 import LoadingPage from "./components/common/Loading/LoadingPage";
 
 function App() {
+  const navigation = useNavigation();
+
   return (
     <AppComponent>
       <TopNav />
-      <Suspense fallback={<LoadingPage />}>
-        <Outlet />
-      </Suspense>
+
+      {navigation.state === "loading" ? <LoadingPage /> : undefined}
+      <Outlet />
     </AppComponent>
   );
 }
