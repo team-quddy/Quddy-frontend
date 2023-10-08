@@ -1,23 +1,22 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
-import { useQuery } from "@tanstack/react-query";
-import { getExamTemplateById } from "../apis/Setter";
 import { TbGitFork, TbShare2 } from "react-icons/tb";
 import Footer from "../components/common/Footer/Footer";
 import ProblemViewAccordion from "../components/Setter/Problem/ProblemView/ProblemViewAccordion";
+import { ExamTemplateDetailType, ProblemType } from "../types/types";
 
 const TemplateDetail = () => {
   const id = useParams().id as string;
-  const query = useQuery(["templateDetail", id], () => getExamTemplateById(id));
-  const { data } = query;
+  const data = useLoaderData() as ExamTemplateDetailType<ProblemType>;
   const navigate = useNavigate();
 
   /** 템플릿 공유 이벤트 */
-  const onShareTemplate = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onShareTemplate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
     const url = `${import.meta.env.VITE_APP_CLIENT_URL}/template/${id}`;
-    navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(url);
 
     // TODO: 사용자에게 알림 제공
     alert("클립보드에 복사되었습니다!");
@@ -42,8 +41,8 @@ const TemplateDetail = () => {
 
           <div className="info">
             <div className="info-area">
-              <h1>{data?.title || "-"}</h1>
-              <p className="owner">{data?.owner || "-"}</p>
+              <h1>{data?.title || "문제집 타이틀명"}</h1>
+              <p className="owner">{data?.owner || "사용자 닉네임"}</p>
               <div className="scrap">
                 <TbGitFork /> {data?.scrap || 0}
               </div>
@@ -87,6 +86,7 @@ const TemplateDetailComponent = styled.div`
   & > main {
     box-sizing: border-box;
     padding: 24px 20px 56px;
+    position: relative;
 
     display: flex;
     flex-direction: column;
@@ -98,6 +98,23 @@ const TemplateDetailComponent = styled.div`
     & > section.exam-info {
       margin-top: 20px;
       display: flex;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 100%;
+        pointer-events: none;
+        transition: backdrop-filter 100ms;
+        backdrop-filter: blur(4px) opacity(0);
+      }
+
+      &.loading::after {
+        backdrop-filter: blur(4px) opacity(1);
+        -webkit-backdrop-filter: blur(4px);
+      }
 
       & > .thumbnail {
         background-color: var(--color-light-gray);
@@ -115,8 +132,9 @@ const TemplateDetailComponent = styled.div`
           max-width: 100%;
           max-height: 100%;
           margin: auto;
-          &[src=""] {
-            display: none;
+          display: none;
+          &[src] {
+            display: block;
           }
         }
       }
