@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import TopNav from "./components/common/TopNav/TopNav";
-import { Route, Routes } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Main from "./pages/Main";
 import Template from "./pages/Template";
 import ExamList from "./pages/ExamList";
@@ -11,24 +11,37 @@ import Profile from "./pages/Profile";
 import { Suspense } from "react";
 import LoadingPage from "./components/common/Loading/LoadingPage";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <TopNav />,
+    children: [
+      { path: "", element: <Main /> },
+      {
+        path: "template",
+        children: [
+          { path: "", element: <Template /> },
+          { path: ":id", element: <TemplateDetail /> },
+        ],
+      },
+      {
+        path: "exam",
+        children: [
+          { path: "", element: <ExamList /> },
+          { path: ":id", element: <ExamDetail /> },
+        ],
+      },
+      { path: "edit", element: <Edit /> },
+      { path: "profile", element: <Profile /> },
+    ],
+  },
+]);
+
 function App() {
   return (
     <AppComponent>
-      <TopNav />
       <Suspense fallback={<LoadingPage />}>
-        <Routes>
-          <Route path="" element={<Main />} />
-          <Route path="template">
-            <Route path="" element={<Template />} />
-            <Route path=":id" element={<TemplateDetail />} />
-          </Route>
-          <Route path="exam">
-            <Route path="" element={<ExamList />} />
-            <Route path=":id" element={<ExamDetail />} />
-          </Route>
-          <Route path="edit" element={<Edit />} />
-          <Route path="profile" element={<Profile />} />
-        </Routes>
+        <RouterProvider router={router} />
       </Suspense>
     </AppComponent>
   );
