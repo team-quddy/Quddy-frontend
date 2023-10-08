@@ -10,7 +10,7 @@ function App() {
     <AppComponent>
       <TopNav />
 
-      {navigation.state === "loading" ? <LoadingPage /> : undefined}
+      {navigation.state === "loading" ? <LoadingPage fade={false} /> : undefined}
       <Outlet />
     </AppComponent>
   );

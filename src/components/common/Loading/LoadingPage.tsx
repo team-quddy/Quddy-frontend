@@ -22,7 +22,6 @@ const LoadingComponent = styled.div`
   width: 100vw;
   height: 100vh;
   /* backdrop-filter: blur(2px); */
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
