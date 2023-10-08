@@ -7,6 +7,7 @@ import { TbBallpen, TbGitFork, TbLock, TbLockOpen, TbShare2, TbTrophy } from "re
 import Footer from "../components/common/Footer/Footer";
 import ProblemViewStatAccordion from "../components/Setter/Problem/ProblemView/ProblemViewStatAccordion";
 import { useMemo } from "react";
+import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const ExamDetail = () => {
   const id = useParams().id as string;
@@ -42,7 +43,7 @@ const ExamDetail = () => {
 
   /** 평균 점수 */
   const solverAvg: number = useMemo(() => {
-    if (!data) return 100;
+    if (!data) return 0;
     const sum = data.problems.reduce((_sum, problem) => _sum + problem.correct, 0);
 
     // 최대 소수점 1자리까지 보여줍니다
@@ -55,14 +56,14 @@ const ExamDetail = () => {
         <BackBtn />
 
         {/* 문제집 템플릿 기본 정보 */}
-        <section className="exam-info">
+        <section className={`exam-info ${query.status}`}>
           <div className="thumbnail">
             <img src={data?.thumbnail} alt="썸네일" />
           </div>
 
           <div className="info">
             <div className="info-area">
-              <h1>{data?.title || "-"}</h1>
+              <h1>{data?.title || "문제집 타이틀명"}</h1>
               <p className="isPublic">
                 {data?.isPublic ? (
                   <>
@@ -102,7 +103,7 @@ const ExamDetail = () => {
               <TbBallpen />
               <div>
                 <p className="title">응시자 수</p>
-                <p>{data?.total}</p>
+                <p>{data?.total || "-"}</p>
               </div>
             </div>
 
@@ -151,6 +152,8 @@ const ExamDetail = () => {
         </section>
       </main>
 
+      {query.status === "loading" ? <LoadingPage /> : undefined}
+
       <Footer />
     </ExamDetailComponent>
   );
@@ -180,6 +183,23 @@ const ExamDetailComponent = styled.div`
       display: flex;
       flex-wrap: wrap;
 
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 100%;
+        pointer-events: none;
+        transition: backdrop-filter 100ms;
+        backdrop-filter: blur(4px) opacity(0);
+      }
+
+      &.loading::after {
+        backdrop-filter: blur(4px) opacity(1);
+        -webkit-backdrop-filter: blur(4px);
+      }
+
       & > .thumbnail {
         background-color: var(--color-light-gray);
         border-radius: 8px;
@@ -196,8 +216,9 @@ const ExamDetailComponent = styled.div`
           max-width: 100%;
           max-height: 100%;
           margin: auto;
-          &[src=""] {
-            display: none;
+          display: none;
+          &[src] {
+            display: block;
           }
         }
       }
