@@ -1,14 +1,15 @@
 import { styled } from "styled-components";
-import { RouterProvider } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import TopNav from "./components/common/TopNav/TopNav";
 import { Suspense } from "react";
 import LoadingPage from "./components/common/Loading/LoadingPage";
-import router from "./router";
 
 function App() {
   return (
     <AppComponent>
+      <TopNav />
       <Suspense fallback={<LoadingPage />}>
-        <RouterProvider router={router} />
+        <Outlet />
       </Suspense>
     </AppComponent>
   );

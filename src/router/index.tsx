@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
-import TopNav from "../components/common/TopNav/TopNav";
 import { Edit, ExamDetail, ExamList, Main, Profile, Template, TemplateDetail } from "../pages";
 import { loaderExamDetail, loaderTemplateDetail } from "./loader";
 import ErrorBoundary from "../components/common/Error/ErrorBoundary";
+import App from "../App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <TopNav />,
+    element: <App />,
     children: [
       { path: "", element: <Main /> },
       {

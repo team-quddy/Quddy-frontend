@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { TbMenu2, TbUser } from "react-icons/tb";
 import TopNavList from "./TopNavList";
 import { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TopNav = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -29,8 +29,6 @@ const TopNav = () => {
         </div>
       </TopNavComponent>
       <TopNavList open={open} setOpen={setOpen} />
-
-      <Outlet />
     </>
   );
 };
