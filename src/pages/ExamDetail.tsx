@@ -1,18 +1,15 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
-import { useQuery } from "@tanstack/react-query";
-import { getExamById } from "../apis/Setter";
 import { TbBallpen, TbGitFork, TbLock, TbLockOpen, TbShare2, TbTrophy } from "react-icons/tb";
 import Footer from "../components/common/Footer/Footer";
 import ProblemViewStatAccordion from "../components/Setter/Problem/ProblemView/ProblemViewStatAccordion";
 import { useMemo } from "react";
-import LoadingPage from "../components/common/Loading/LoadingPage";
+import { ExamDetailStatType, ProblemStatType } from "../types/types";
 
 const ExamDetail = () => {
   const id = useParams().id as string;
-  const query = useQuery(["examDetail", id], () => getExamById(id), { suspense: true });
-  const { data } = query;
+  const data = useLoaderData() as ExamDetailStatType<ProblemStatType>;
   const navigate = useNavigate();
 
   /** 템플릿 공유 이벤트 */
@@ -151,8 +148,6 @@ const ExamDetail = () => {
           </div>
         </section>
       </main>
-
-      {query.status === "loading" ? <LoadingPage /> : undefined}
 
       <Footer />
     </ExamDetailComponent>
