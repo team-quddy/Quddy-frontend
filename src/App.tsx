@@ -8,24 +8,28 @@ import Edit from "./pages/Edit";
 import TemplateDetail from "./pages/TemplateDetail";
 import ExamDetail from "./pages/ExamDetail";
 import Profile from "./pages/Profile";
+import { Suspense } from "react";
+import LoadingPage from "./components/common/Loading/LoadingPage";
 
 function App() {
   return (
     <AppComponent>
       <TopNav />
-      <Routes>
-        <Route path="" element={<Main />} />
-        <Route path="template">
-          <Route path="" element={<Template />} />
-          <Route path=":id" element={<TemplateDetail />} />
-        </Route>
-        <Route path="exam">
-          <Route path="" element={<ExamList />} />
-          <Route path=":id" element={<ExamDetail />} />
-        </Route>
-        <Route path="edit" element={<Edit />} />
-        <Route path="profile" element={<Profile />} />
-      </Routes>
+      <Suspense fallback={<LoadingPage />}>
+        <Routes>
+          <Route path="" element={<Main />} />
+          <Route path="template">
+            <Route path="" element={<Template />} />
+            <Route path=":id" element={<TemplateDetail />} />
+          </Route>
+          <Route path="exam">
+            <Route path="" element={<ExamList />} />
+            <Route path=":id" element={<ExamDetail />} />
+          </Route>
+          <Route path="edit" element={<Edit />} />
+          <Route path="profile" element={<Profile />} />
+        </Routes>
+      </Suspense>
     </AppComponent>
   );
 }

@@ -10,7 +10,7 @@ import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const TemplateDetail = () => {
   const id = useParams().id as string;
-  const query = useQuery(["templateDetail", id], () => getExamTemplateById(id));
+  const query = useQuery(["templateDetail", id], () => getExamTemplateById(id), { suspense: true });
   const { data } = query;
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const TemplateDetail = () => {
         <BackBtn />
 
         {/* 문제집 템플릿 기본 정보 */}
-        <section className={`exam-info ${query.status}`}>
+        <section className="exam-info">
           <div className="thumbnail">
             <img src={data?.thumbnail} alt="썸네일" />
           </div>

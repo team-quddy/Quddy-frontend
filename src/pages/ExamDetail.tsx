@@ -11,7 +11,7 @@ import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const ExamDetail = () => {
   const id = useParams().id as string;
-  const query = useQuery(["examDetail", id], () => getExamById(id));
+  const query = useQuery(["examDetail", id], () => getExamById(id), { suspense: true });
   const { data } = query;
   const navigate = useNavigate();
 
@@ -56,7 +56,7 @@ const ExamDetail = () => {
         <BackBtn />
 
         {/* 문제집 템플릿 기본 정보 */}
-        <section className={`exam-info ${query.status}`}>
+        <section className="exam-info">
           <div className="thumbnail">
             <img src={data?.thumbnail} alt="썸네일" />
           </div>
