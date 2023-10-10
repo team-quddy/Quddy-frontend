@@ -1,4 +1,4 @@
-import { ProblemStatType, ProblemType } from "./types";
+import { ProblemStatType, ProblemType, SolverExamType, SolverProblemType, SolverResultType } from "./types";
 
 export interface ResponseListType<T> {
   list: T[];
@@ -11,4 +11,9 @@ export interface ResponseProblemType extends ProblemType {
 
 export interface ResponseProblemStatType extends ProblemStatType {
   opt: string | null;
+}
+
+export interface ResponseSolverExamType {
+  exam: null | SolverExamType<SolverProblemType>;
+  result: null | SolverResultType;
 }
