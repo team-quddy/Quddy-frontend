@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ResponseSolverExamType } from "../types/response";
 import { useLoaderData } from "react-router-dom";
-import SolverExam from "../components/Solver/SolverExam";
+import SolverExam from "../components/Solver/SolverExam/SolverExam";
 import SolverResult from "../components/Solver/SolverResult";
 import { SolverResultType } from "../types/types";
 

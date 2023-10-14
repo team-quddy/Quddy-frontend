@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SolverExamType, SolverProblemType, SolverResultType } from "../../types/types";
+import { SolverExamType, SolverProblemType, SolverResultType } from "../../../types/types";
 
 interface Props {
   data: SolverExamType<SolverProblemType>;
