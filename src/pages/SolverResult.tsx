@@ -48,7 +48,7 @@ const SolverResult = () => {
       <h1>채점 결과</h1>
       <section className="result" id="result">
         {downloadImgMutation.status === "loading" && <LoadingPage />}
-        <SolverExamHeader />
+        <SolverExamHeader title={exam.title} />
 
         <div className="score">
           <div className="percentile">

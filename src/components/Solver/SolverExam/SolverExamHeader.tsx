@@ -1,12 +1,16 @@
 import styled from "styled-components";
 
-const SolverExamHeader = () => {
+interface Props {
+  title: string;
+}
+
+const SolverExamHeader = ({ title }: Props) => {
   return (
     <SolverExamHeaderComponent>
       <hr />
       <div className="title">
         <p>2023년도 10월 큐디고사</p>
-        <h2>한유경 영역</h2>
+        <h2>{title}</h2>
       </div>
 
       <div className="decoration">
