@@ -1,23 +1,10 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { ResponseSolverExamType } from "../types/response";
-import { useLoaderData } from "react-router-dom";
-import SolverExam from "../components/Solver/SolverExam/SolverExam";
-import SolverResult from "../components/Solver/SolverResult";
-import { SolverResultType } from "../types/types";
+import { Outlet } from "react-router-dom";
 
 const Solver = () => {
-  const [data, setData] = useState<ResponseSolverExamType>(useLoaderData() as ResponseSolverExamType);
-  const onSetResult = (result: SolverResultType) => {
-    setData({
-      exam: null,
-      result,
-    });
-  };
   return (
     <SovlerComponent>
-      {data.exam && <SolverExam data={data.exam} setData={onSetResult} />}
-      {data.result && <SolverResult data={data.result} />}
+      <Outlet />
     </SovlerComponent>
   );
 };

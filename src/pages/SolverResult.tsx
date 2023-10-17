@@ -1,58 +1,59 @@
 import styled from "styled-components";
-import { SolverResultType } from "../../types/types";
-import SolverExamHeader from "./SolverExam/SolverExamHeader";
-import BackgroundImg from "../../assets/imgs/paper_background.png";
-import { useMemo } from "react";
+import SolverExamHeader from "../components/Solver/SolverExam/SolverExamHeader";
+import BackgroundImg from "../assets/imgs/paper_background.png";
+import { useCallback, useMemo } from "react";
 import { TbPhotoDown } from "react-icons/tb";
 import * as htmlToImage from "html-to-image";
 import { useMutation } from "@tanstack/react-query";
-import LoadingPage from "../common/Loading/LoadingPage";
-import DistributionGraph from "../common/Graph/DistributionGraph";
+import LoadingPage from "../components/common/Loading/LoadingPage";
+import DistributionGraph from "../components/common/Graph/DistributionGraph";
+import { throttle } from "lodash";
+import { useLoaderData } from "react-router-dom";
+import { ResponseSolverExamResultType } from "../types/response";
 
-interface Props {
-  data: SolverResultType;
-}
+const SolverResult = () => {
+  const data = useLoaderData() as ResponseSolverExamResultType;
+  const { exam, result } = data;
 
-const SolverResult = ({ data }: Props) => {
-  const mutation = useMutation(async () => {
+  const rank = useMemo(() => {
+    if (result.percentile <= 0.04) return 1;
+    if (result.percentile <= 0.11) return 2;
+    if (result.percentile <= 0.23) return 3;
+    if (result.percentile <= 0.4) return 4;
+    if (result.percentile <= 0.6) return 5;
+    if (result.percentile <= 0.77) return 6;
+    if (result.percentile <= 0.89) return 7;
+    if (result.percentile <= 0.96) return 8;
+    return 9;
+  }, [result]);
+
+  const score = useMemo(() => {
+    return Math.round((result.correct / result.problemCnt) * 100);
+  }, [result]);
+
+  const downloadImgMutation = useMutation(async () => {
     const html = document.getElementById("result") as HTMLElement;
     const link = document.getElementById("img") as HTMLAreaElement;
+    await new Promise((res) => setTimeout(res, 2000));
+
     link.href = await htmlToImage.toJpeg(html);
-    link.download = "완요";
+    link.download = `${exam.title} 성적표`;
     link.click();
     return;
   });
-
-  const rank = useMemo(() => {
-    if (data.percentile <= 0.04) return 1;
-    if (data.percentile <= 0.11) return 2;
-    if (data.percentile <= 0.23) return 3;
-    if (data.percentile <= 0.4) return 4;
-    if (data.percentile <= 0.6) return 5;
-    if (data.percentile <= 0.77) return 6;
-    if (data.percentile <= 0.89) return 7;
-    if (data.percentile <= 0.96) return 8;
-    return 9;
-  }, [data]);
-
-  const score = useMemo(() => {
-    return Math.round((data.correct / data.problemCnt) * 100);
-  }, [data]);
-
-  const onDownloadImg = async () => {
-    mutation.mutate();
-  };
+  const debounceDownloadImg = useMemo(() => throttle(downloadImgMutation.mutate, 500), [downloadImgMutation]);
+  const handleDownloadImg = useCallback(() => debounceDownloadImg(), [debounceDownloadImg]);
 
   return (
     <SolverResultComponent>
       <h1>채점 결과</h1>
       <section className="result" id="result">
-        {mutation.status === "loading" ?? <LoadingPage />}
+        {downloadImgMutation.status === "loading" && <LoadingPage />}
         <SolverExamHeader />
 
         <div className="score">
           <div className="percentile">
-            <p>상위 {data.percentile * 100}%</p>
+            <p>상위 {result.percentile * 100}%</p>
             <p className="rank">{rank}등급</p>
           </div>
           <p>
@@ -69,7 +70,7 @@ const SolverResult = ({ data }: Props) => {
           <button type="button" className="round-btn">
             점수 자랑하기
           </button>
-          <button type="button" className="circle-btn" onClick={onDownloadImg}>
+          <button type="button" className="circle-btn" onClick={handleDownloadImg}>
             <TbPhotoDown />
           </button>
         </div>
