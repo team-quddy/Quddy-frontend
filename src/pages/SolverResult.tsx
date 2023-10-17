@@ -8,10 +8,12 @@ import { useMutation } from "@tanstack/react-query";
 import LoadingPage from "../components/common/Loading/LoadingPage";
 import DistributionGraph from "../components/common/Graph/DistributionGraph";
 import { throttle } from "lodash";
-import { useLoaderData } from "react-router-dom";
+import { NavLink, useLoaderData, useParams } from "react-router-dom";
 import { ResponseSolverExamResultType } from "../types/response";
+import { onShareURL } from "../utils/event";
 
 const SolverResult = () => {
+  const id = useParams().id;
   const data = useLoaderData() as ResponseSolverExamResultType;
   const { exam, result } = data;
 
@@ -27,10 +29,6 @@ const SolverResult = () => {
     return 9;
   }, [result]);
 
-  const score = useMemo(() => {
-    return Math.round((result.correct / result.problemCnt) * 100);
-  }, [result]);
-
   const downloadImgMutation = useMutation(async () => {
     const html = document.getElementById("result") as HTMLElement;
     const link = document.getElementById("img") as HTMLAreaElement;
@@ -42,7 +40,8 @@ const SolverResult = () => {
     return;
   });
   const debounceDownloadImg = useMemo(() => throttle(downloadImgMutation.mutate, 500), [downloadImgMutation]);
-  const handleDownloadImg = useCallback(() => debounceDownloadImg(), [debounceDownloadImg]);
+  const onDownloadImg = useCallback(() => debounceDownloadImg(), [debounceDownloadImg]);
+  const onShareResult = (e: React.MouseEvent<HTMLButtonElement>) => onShareURL(e, `solver/result/${id}`);
 
   return (
     <SolverResultComponent>
@@ -57,7 +56,7 @@ const SolverResult = () => {
             <p className="rank">{rank}등급</p>
           </div>
           <p>
-            {score}점<span>/100점</span>
+            {Math.round((result.correct / result.problemCnt) * 100)}점<span>/100점</span>
           </p>
         </div>
 
@@ -67,20 +66,20 @@ const SolverResult = () => {
         </div>
 
         <div className="interaction">
-          <button type="button" className="round-btn">
+          <button type="button" className="round-btn" onClick={onShareResult}>
             점수 자랑하기
           </button>
-          <button type="button" className="circle-btn" onClick={handleDownloadImg}>
+          <button type="button" className="circle-btn" onClick={onDownloadImg}>
             <TbPhotoDown />
           </button>
         </div>
       </section>
 
       <div>
-        <p>닉네임님만의 문제집도 출제해볼까요?</p>
-        <button type="button" className="round-btn">
+        <p>나만의 문제집도 출제하고 공유해보세요!</p>
+        <NavLink to={"/"} className="round-btn">
           출제하러 가기
-        </button>
+        </NavLink>
         <a id="img">asdf</a>
       </div>
     </SolverResultComponent>
@@ -185,6 +184,7 @@ const SolverResultComponent = styled.main`
   }
 
   & .round-btn {
+    display: block;
     background-color: var(--color-primary);
     color: #fff;
     font-family: Hanamdaum;
@@ -201,12 +201,13 @@ const SolverResultComponent = styled.main`
     color: var(--color-primary);
     text-align: center;
     margin-top: 48px;
-    & > button {
-      margin: 16px;
+    & > .round-btn {
+      margin: 16px auto;
+      width: fit-content;
     }
   }
 
-  & > div > a {
+  & > div > a#img {
     display: none;
   }
 `;
