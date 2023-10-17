@@ -17,7 +17,6 @@ const SovlerComponent = styled.div`
   background-color: var(--color-background);
 
   & > main {
-    width: 100%;
     max-width: 800px;
     margin: auto;
   }

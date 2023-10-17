@@ -87,13 +87,13 @@ const SolverResult = () => {
 };
 
 const SolverResultComponent = styled.main`
-  padding: 0 16px;
+  padding: 72px 16px;
 
   & h1 {
     color: var(--color-primary);
     font-size: 24px;
     font-weight: bold;
-    margin: 72px 12px 24px;
+    margin: 24px 12px;
   }
 
   & > section.result {
