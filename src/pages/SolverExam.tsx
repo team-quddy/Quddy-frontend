@@ -69,7 +69,7 @@ const SolverExamComponent = styled.main`
   & > h1 {
     font-size: 20px;
     font-weight: bold;
-    margin: 16px 0;
+    margin: 16px;
     color: var(--color-primary);
     & > span {
       font-size: 14px;
