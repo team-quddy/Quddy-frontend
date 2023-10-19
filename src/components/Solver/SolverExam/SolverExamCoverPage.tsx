@@ -1,6 +1,10 @@
 import { styled } from "styled-components";
 import BackgroundImg from "../../../assets/imgs/paper_background.png";
 import RoundButton from "../../common/Button/RoundButton";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getUserInfo, postCreateUser } from "../../../apis/Setter";
+import LoadingPage from "../../common/Loading/LoadingPage";
+import { useState } from "react";
 
 interface Props {
   title: string;
@@ -8,8 +12,33 @@ interface Props {
 }
 
 const SolverExamCoverPage = ({ title, onMoveNextProblem }: Props) => {
+  const [nickname, setNickname] = useState<string>("");
+  const query = useQuery(["getUser"], getUserInfo, {
+    retry: false,
+    onSuccess: (data) => {
+      setNickname(data.nickname);
+    },
+  });
+  const mutation = useMutation(() => postCreateUser(nickname), {
+    onSuccess: async () => {
+      await query.refetch();
+      onStartTest();
+    },
+  });
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNickname(value);
+  };
+
+  const onStartTest = async () => {
+    if (query.status === "error") mutation.mutate();
+    else onMoveNextProblem();
+  };
+
   return (
     <>
+      {(query.status === "loading" || mutation.status === "loading") && <LoadingPage />}
       <ExamPageComponent>
         <div className="title">
           <p>2023년도 10월 큐디고사</p>
@@ -49,10 +78,10 @@ const SolverExamCoverPage = ({ title, onMoveNextProblem }: Props) => {
 
         <div className="solver">
           <p>※ 응시자명을 입력 후 시험을 시작해주세요.</p>
-          <input />
+          <input value={nickname} onChange={onChange} disabled={query.isSuccess} />
         </div>
       </ExamPageComponent>
-      <RoundButton type="button" className="start-btn" onClick={onMoveNextProblem}>
+      <RoundButton type="button" className="start-btn" onClick={onStartTest} disabled={!nickname}>
         시험 시작
       </RoundButton>
     </>
@@ -180,6 +209,8 @@ const ExamPageComponent = styled.div`
       background-color: rgba(255, 255, 255, 0.25);
       border-radius: 4px;
       border: 1px solid var(--color-primary);
+      text-align: center;
+      font-family: KCCChassam;
     }
   }
 `;
