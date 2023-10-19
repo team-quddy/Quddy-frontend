@@ -2,9 +2,10 @@ import styled from "styled-components";
 
 interface Props {
   title: string;
+  isResult?: boolean;
 }
 
-const SolverExamHeader = ({ title }: Props) => {
+const SolverExamHeader = ({ title, isResult }: Props) => {
   return (
     <SolverExamHeaderComponent>
       <hr />
@@ -13,14 +14,17 @@ const SolverExamHeader = ({ title }: Props) => {
         <h2>{title}</h2>
       </div>
 
-      <div className="decoration">
-        <div>제 1교시</div>
+      {isResult && (
+        <div className="decoration">
+          <div>제 1교시</div>
 
-        <div>
-          <div>성명</div>
-          <div className="nickname">홍길동</div>
+          <div>
+            <div>성명</div>
+            <div className="nickname">홍길동</div>
+          </div>
         </div>
-      </div>
+      )}
+
       <hr />
     </SolverExamHeaderComponent>
   );

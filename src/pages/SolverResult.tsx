@@ -48,7 +48,7 @@ const SolverResult = () => {
       <h1>채점 결과</h1>
       <section className="result" id="result">
         {downloadImgMutation.status === "loading" && <LoadingPage />}
-        <SolverExamHeader title={exam.title} />
+        <SolverExamHeader title={exam.title} isResult={true} />
 
         <div className="score">
           <div className="percentile">
@@ -91,9 +91,9 @@ const SolverResultComponent = styled.main`
 
   & h1 {
     color: var(--color-primary);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
-    margin: 24px 12px;
+    margin: 16px;
   }
 
   & > section.result {
