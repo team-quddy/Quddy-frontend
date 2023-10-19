@@ -55,7 +55,9 @@ export interface ProblemType {
   answer: string; // 정답
 }
 
-export type SolverProblemType = Omit<ProblemType, "answer">;
+export interface SolverProblemType extends Omit<ProblemType, "answer"> {
+  id: PK;
+}
 export interface SolverProblemResultType extends SolverProblemType {
   answer: string;
   resultAnswer: string;

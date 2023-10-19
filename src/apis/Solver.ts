@@ -12,11 +12,13 @@ import SampleProblemList from "./sample/Problem.json";
  */
 export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType> {
   // const { data } = await getInstance().get(`/solver/exam/${id}`);
+
+  const problems = SampleProblemList.map((item, idx) => ({ ...item, id: `${id}-${idx}` }));
   const data: ResponseSolverExamType = {
     id: null,
     exam: {
       title: "테스트문제집",
-      problems: SampleProblemList,
+      problems,
     },
   };
   if (id === "1") data.id = "1";
@@ -31,7 +33,7 @@ export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType>
 export async function getSolverExamResultById(id: PK): Promise<ResponseSolverExamResultType> {
   // const { data } = await getInstance().get(`/solver/result/${id}`);
 
-  const problems = SampleProblemList.map((item) => ({ ...item, resultAnswer: "2" }));
+  const problems = SampleProblemList.map((item, idx) => ({ ...item, resultAnswer: "2", id: `${id}-${idx}` }));
   const data: ResponseSolverExamResultType = {
     result: { problemCnt: 5, correct: 4, percentile: 0.75, firstSolver: false },
     exam: {
