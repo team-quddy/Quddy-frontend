@@ -84,6 +84,10 @@ export interface UserInfoType {
   scrapCnt: number;
 }
 
+export interface SolverExamResultType {
+  id: PK;
+}
+
 export interface SolverResultType {
   problemCnt: number;
   correct: number;

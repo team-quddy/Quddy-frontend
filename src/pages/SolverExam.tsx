@@ -1,33 +1,44 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SolverExamType, SolverProblemAnsType, SolverProblemType } from "../types/types";
 import { useEffect, useState } from "react";
 import SolverExamCoverPage from "../components/Solver/SolverExam/SolverExamCoverPage";
 import SolverExamProblemPage from "../components/Solver/SolverExam/SolverExamProblemPage";
 import LoadingPage from "../components/common/Loading/LoadingPage";
+import { useMutation } from "@tanstack/react-query";
+import { postSolverExam } from "../apis/Solver";
 
 const SolverExam = () => {
+  const id = useParams().id as string;
   const exam = useLoaderData() as SolverExamType<SolverProblemType>;
   const length = exam.problems.length;
-  const [page, setPage] = useState<number>(-1);
+  const [page, setPage] = useState<number>(1);
   const [answer, setAnswer] = useState<SolverProblemAnsType[]>([]);
+  const navigate = useNavigate();
+  const mutation = useMutation(() => postSolverExam(id, answer), {
+    onSuccess: (data) => {
+      const resultid = data.id;
+      navigate(`/solver/result/${resultid}`, { replace: true });
+    },
+  });
+
+  // 초기 answer값 초기화
+  useEffect(() => {
+    const answer = exam.problems.map((item) => ({ id: item.id, answer: "" }));
+    setAnswer(answer);
+  }, [exam.problems]);
 
   useEffect(() => {
-    return () => {
-      setPage((pre) => pre + 1);
-    };
-  }, [answer]);
+    if (page === length + 1) mutation.mutate();
+  }, [page]);
 
-  const onMoveNextProblem = (ans?: SolverProblemAnsType) => {
-    if (!ans) setPage(1);
-    else if (answer.length < page) setAnswer((pre) => [...pre, ans]);
-    else
-      setAnswer((pre) => {
-        pre[page - 1] = ans;
-        return [...pre];
-      });
+  const onMoveNextProblem = (idx: number, ans: string) => {
+    setAnswer((pre) => {
+      pre[idx].answer = ans;
+      return [...pre];
+    });
+    setPage((pre) => pre + 1);
   };
-
   const onMovePreProblem = () => {
     setPage((pre) => pre - 1);
   };
@@ -43,16 +54,17 @@ const SolverExam = () => {
       )}
 
       {page === 0 ? (
-        <SolverExamCoverPage title={exam.title} onMoveNextProblem={onMoveNextProblem} />
-      ) : page > length ? (
-        <LoadingPage />
-      ) : (
+        <SolverExamCoverPage title={exam.title} onStartExam={() => setPage(1)} />
+      ) : answer.length && page <= length ? (
         <SolverExamProblemPage
-          problem={exam.problems[page - 1]}
+          exam={exam}
+          idx={page - 1}
+          preAns={answer[page - 1].answer}
           onMoveNextProblem={onMoveNextProblem}
           onMovePreProblem={onMovePreProblem}
-          preAns={answer[page - 1]}
         />
+      ) : (
+        <LoadingPage />
       )}
     </SolverExamComponent>
   );

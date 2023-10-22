@@ -1,9 +1,6 @@
 import getInstance from ".";
 import { ResponseSolverExamResultType, ResponseSolverExamType } from "../types/response";
-import { PK, SolverProblemAnsType, SolverResultType } from "../types/types";
-
-// Sample Data
-import SampleProblemList from "./sample/Problem.json";
+import { PK, SolverExamResultType, SolverProblemAnsType } from "../types/types";
 
 /**
  * [GET] 응시자 시험 정보 요청
@@ -11,17 +8,17 @@ import SampleProblemList from "./sample/Problem.json";
  * @returns
  */
 export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType> {
-  // const { data } = await getInstance().get(`/solver/exam/${id}`);
+  const { data } = await getInstance().get(`/solver/exam/${id}`);
 
-  const problems = SampleProblemList.map((item, idx) => ({ ...item, id: `${id}-${idx}` }));
-  const data: ResponseSolverExamType = {
-    id: null,
-    exam: {
-      title: "테스트문제집",
-      problems,
-    },
-  };
-  if (id === "1") data.id = "1";
+  // const problems = SampleProblemList.map((item, idx) => ({ ...item, id: `${id}-${idx}` }));
+  // const data: ResponseSolverExamType = {
+  //   id: null,
+  //   exam: {
+  //     title: "테스트문제집",
+  //     problems,
+  //   },
+  // };
+  // if (id === "1") data.id = "1";
   return data;
 }
 
@@ -31,16 +28,16 @@ export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType>
  * @returns
  */
 export async function getSolverExamResultById(id: PK): Promise<ResponseSolverExamResultType> {
-  // const { data } = await getInstance().get(`/solver/result/${id}`);
+  const { data } = await getInstance().get(`/solver/result/${id}`);
 
-  const problems = SampleProblemList.map((item, idx) => ({ ...item, resultAnswer: "2", id: `${id}-${idx}` }));
-  const data: ResponseSolverExamResultType = {
-    result: { problemCnt: 5, correct: 4, percentile: 0.75, firstSolver: false },
-    exam: {
-      title: "테스트문제집",
-      problems,
-    },
-  };
+  // const problems = SampleProblemList.map((item, idx) => ({ ...item, resultAnswer: "2", id: `${id}-${idx}` }));
+  // const data: ResponseSolverExamResultType = {
+  //   result: { problemCnt: 5, correct: 4, percentile: 0.75, firstSolver: false },
+  //   exam: {
+  //     title: "테스트문제집",
+  //     problems,
+  //   },
+  // };
   return data;
 }
 
@@ -50,7 +47,7 @@ export async function getSolverExamResultById(id: PK): Promise<ResponseSolverExa
  * @param problems 응답한 문제 배열
  * @returns
  */
-export async function postSolverExam(id: PK, problems: SolverProblemAnsType[]): Promise<SolverResultType> {
-  const { data } = await getInstance().post(`/solver/exam/${id}`, { problems });
+export async function postSolverExam(id: PK, problems: SolverProblemAnsType[]): Promise<SolverExamResultType> {
+  const { data } = await getInstance().post(`/solver/exam/${id}`, { id, problems });
   return data;
 }

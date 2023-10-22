@@ -55,7 +55,7 @@ const SolverExamHeaderComponent = styled.div`
     text-align: center;
     & h2 {
       margin-top: 4px;
-      font-size: 40px;
+      font-size: 36px;
     }
     & p {
       font-size: 16px;

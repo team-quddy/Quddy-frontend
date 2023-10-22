@@ -8,10 +8,10 @@ import { useState } from "react";
 
 interface Props {
   title: string;
-  onMoveNextProblem(): void;
+  onStartExam(): void;
 }
 
-const SolverExamCoverPage = ({ title, onMoveNextProblem }: Props) => {
+const SolverExamCoverPage = ({ title, onStartExam }: Props) => {
   const [nickname, setNickname] = useState<string>("");
   const query = useQuery(["getUser"], getUserInfo, {
     retry: false,
@@ -33,7 +33,7 @@ const SolverExamCoverPage = ({ title, onMoveNextProblem }: Props) => {
 
   const onStartTest = async () => {
     if (query.status === "error") mutation.mutate();
-    else onMoveNextProblem();
+    else onStartExam();
   };
 
   return (
@@ -211,6 +211,7 @@ const ExamPageComponent = styled.div`
       border: 1px solid var(--color-primary);
       text-align: center;
       font-family: KCCChassam;
+      font-size: 18px;
     }
   }
 `;
