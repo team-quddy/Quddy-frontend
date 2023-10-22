@@ -9,7 +9,6 @@ function App() {
   return (
     <AppComponent>
       <TopNav />
-
       {navigation.state === "loading" ? <LoadingPage fade={false} /> : undefined}
       <Outlet />
     </AppComponent>

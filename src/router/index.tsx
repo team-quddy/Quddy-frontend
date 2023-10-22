@@ -1,6 +1,17 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Edit, ExamDetail, ExamList, Main, Profile, Template, TemplateDetail } from "../pages";
-import { loaderExamDetail, loaderTemplateDetail } from "./loader";
+import {
+  Edit,
+  ExamDetail,
+  ExamList,
+  Main,
+  Profile,
+  Solver,
+  SolverExam,
+  SolverResult,
+  Template,
+  TemplateDetail,
+} from "../pages";
+import { loaderExamDetail, loaderSolverExam, loaderSolverResult, loaderTemplateDetail } from "./loader";
 import ErrorBoundary from "../components/common/Error/ErrorBoundary";
 import App from "../App";
 
@@ -8,6 +19,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorBoundary />,
     children: [
       { path: "", element: <Main /> },
       {
@@ -26,6 +38,19 @@ const router = createBrowserRouter([
       },
       { path: "edit", element: <Edit /> },
       { path: "profile", element: <Profile /> },
+      {
+        path: "solver",
+        element: <Solver />,
+        children: [
+          { path: "exam/:id", element: <SolverExam />, loader: loaderSolverExam, errorElement: <ErrorBoundary /> },
+          {
+            path: "result/:id",
+            element: <SolverResult />,
+            loader: loaderSolverResult,
+            errorElement: <ErrorBoundary />,
+          },
+        ],
+      },
     ],
   },
 ]);
