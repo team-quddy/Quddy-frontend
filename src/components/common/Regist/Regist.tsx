@@ -203,6 +203,7 @@ const RegistComponent = styled.div`
   }
 
   &.close {
+    pointer-events: none;
     animation: fide-out;
     animation-delay: 500ms;
     animation-duration: 500ms;
@@ -214,6 +215,9 @@ const RegistComponent = styled.div`
     & > img.svg {
       animation-name: disappear;
       animation-delay: 0ms;
+    }
+    &::after {
+      pointer-events: none;
     }
   }
 
