@@ -12,9 +12,9 @@ const ErrorBoundary = () => {
     if (error.status >= 400 && error.status < 500) return <Error400 />;
     if (error.status >= 500) return <Error500 />;
     else return <ErrorDefault />;
-  } else if (isAxiosError(error)) {
-    if (Number(error.code) >= 400 && Number(error.code) < 500) return <Error400 />;
-    if (Number(error.code) >= 500) return <Error500 />;
+  } else if (isAxiosError(error) && error.response) {
+    if (error.response.status >= 400 && error.response.status < 500) return <Error400 />;
+    if (error.response.status >= 500) return <Error500 />;
   } else return <ErrorDefault />;
 
   return <ErrorDefault />;

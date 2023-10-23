@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { ErrorPageComponent } from "../../../styles/components";
 
 const Error500 = () => {
-  const { code, message } = useRouteError() as AxiosError;
+  const { code, response } = useRouteError() as AxiosError;
 
   return (
     <ErrorPageComponent>
@@ -16,7 +16,7 @@ const Error500 = () => {
         잠시 후 다시 시도해주세요.
       </p>
       <p className="detail">
-        {code} | {message}
+        {response?.status} {code}
       </p>
     </ErrorPageComponent>
   );
