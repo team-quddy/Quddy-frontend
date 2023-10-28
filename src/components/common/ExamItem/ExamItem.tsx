@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { ExamType } from "../../../types/types";
 import { TbLock, TbLockOpen, TbShare2 } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
+import { onShareURL } from "../../../utils/event";
 
 interface Props {
   exam: ExamType;
@@ -15,14 +16,7 @@ const ExamItem = ({ exam }: Props) => {
   };
 
   /** 문제집 응시 링크 공유 이벤트 */
-  const onShareExam = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    const url = `${import.meta.env.VITE_APP_CLIENT_URL}/solver/${exam.id}`;
-    await navigator.clipboard.writeText(url);
-
-    // TODO: 사용자에게 알림 제공
-    alert("클립보드에 응시링크가 복사되었습니다!");
-  };
+  const onShareExam = async (e: React.MouseEvent<HTMLButtonElement>) => onShareURL(e, `solver/exam/${exam.id}`);
 
   return (
     <ExamItemComponent onClick={onMoveDetail}>
