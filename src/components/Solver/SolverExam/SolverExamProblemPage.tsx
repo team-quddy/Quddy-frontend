@@ -118,6 +118,7 @@ const ExamPageComponent = styled.div`
         padding: 16px;
       }
       & > .img {
+        display: flex;
         background-color: var(--color-gray);
         min-height: 200px;
         max-height: 320px;
