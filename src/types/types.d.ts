@@ -33,6 +33,11 @@ export interface ExamTemplateDetailType<T> extends Omit<ExamTemplateType, "id"> 
 
 export type ExamEditType<T> = Omit<ExamDetailType<T>, "scrap">;
 
+export interface SolverExamType<T> {
+  title: string;
+  problems: T[];
+}
+
 /** 메인화면 배너 정보 */
 export interface BannerType {
   id: PK;
@@ -50,10 +55,42 @@ export interface ProblemType {
   answer: string; // 정답
 }
 
+export interface SolverProblemType extends Omit<ProblemType, "answer"> {
+  id: PK;
+}
+export interface SolverProblemResultType extends SolverProblemType {
+  answer: string;
+  resultAnswer: string;
+}
+
+export interface SolverProblemAnsType {
+  id: PK;
+  answer: string;
+}
+
 export interface ProblemStatType extends ProblemType {
   correct: number; // 정답자 수
 }
 
 export interface ProblemKeyType extends ProblemType {
   key: number;
+}
+
+export interface UserInfoType {
+  nickname: string;
+  id: PK;
+  examCnt: number;
+  publicExamCnt: number;
+  scrapCnt: number;
+}
+
+export interface SolverExamResultType {
+  id: PK;
+}
+
+export interface SolverResultType {
+  problemCnt: number;
+  correct: number;
+  percentile: number;
+  firstSolver: boolean;
 }

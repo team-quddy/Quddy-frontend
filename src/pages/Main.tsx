@@ -4,16 +4,37 @@ import Footer from "../components/common/Footer/Footer";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode } from "swiper/modules";
 import GuideBanner from "../assets/imgs/guide_banner.png";
-
-// 임시 데이터
 import BannerData from "../apis/sample/Banner.json";
-import ExamData from "../apis/sample/Exam.json";
-import ExamTemplateItem from "../components/common/ExamTemplateItem/ExamTemplateItem";
-import ExamItem from "../components/common/ExamItem/ExamItem";
 import { TbArrowRight } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getExamList, getExamTemplateList } from "../apis/Setter";
+import { SearchTarget, Sort } from "../types/search";
+import BlankExamItem from "../components/common/ExamItem/BlankExamItem";
+import ExamTemplateItem from "../components/common/ExamTemplateItem/ExamTemplateItem";
+import BlankExamTemplateItem from "../components/common/ExamTemplateItem/BlankExamTemplateItem";
+import ExamItem from "../components/common/ExamItem/ExamItem";
 
 const Main = () => {
+  const examQuery = useQuery(["latestExam"], () =>
+    getExamList({
+      keyword: "",
+      target: SearchTarget.title,
+      sort: Sort.latest,
+      page: 0,
+      size: 5,
+    })
+  );
+  const templateQuery = useQuery(["popularTemplate"], () =>
+    getExamTemplateList({
+      keyword: "",
+      target: SearchTarget.title,
+      sort: Sort.popular,
+      page: 0,
+      size: 5,
+    })
+  );
+
   return (
     <MainPage>
       <SwipeBanner data={BannerData} />
@@ -23,7 +44,14 @@ const Main = () => {
       <section>
         <h1>🔥지금 인기있는 문제집</h1>
         <Swiper className="slider" spaceBetween={8} slidesPerView={"auto"} freeMode={true} modules={[FreeMode]}>
-          {ExamData.map((item) => (
+          {templateQuery.status === "loading" &&
+            [1, 2, 3, 4, 5].map((index) => (
+              <SwiperSlide key={index}>
+                <BlankExamTemplateItem />
+              </SwiperSlide>
+            ))}
+
+          {templateQuery.data?.list.map((item) => (
             <SwiperSlide key={item.id}>
               <ExamTemplateItem exam={item} />
             </SwiperSlide>
@@ -39,26 +67,33 @@ const Main = () => {
           </SwiperSlide>
         </Swiper>
       </section>
+      {examQuery.status !== "error" && (
+        <section>
+          <h1>📚내가 만든 문제집</h1>
+          <Swiper className="slider" spaceBetween={8} slidesPerView={"auto"} freeMode={true} modules={[FreeMode]}>
+            {examQuery.status === "loading" &&
+              [1, 2, 3, 4, 5].map((index) => (
+                <SwiperSlide key={index}>
+                  <BlankExamItem />
+                </SwiperSlide>
+              ))}
+            {examQuery.data?.list.map((item) => (
+              <SwiperSlide key={item.id}>
+                <ExamItem exam={item} />
+              </SwiperSlide>
+            ))}
 
-      <section>
-        <h1>📚내가 만든 문제집</h1>
-        <Swiper className="slider" spaceBetween={8} slidesPerView={"auto"} freeMode={true} modules={[FreeMode]}>
-          {ExamData.map((item) => (
-            <SwiperSlide key={item.id}>
-              <ExamItem exam={item} />
+            <SwiperSlide>
+              <div className="more-btn">
+                <NavLink to="/exam">
+                  더보기
+                  <TbArrowRight />
+                </NavLink>
+              </div>
             </SwiperSlide>
-          ))}
-
-          <SwiperSlide>
-            <div className="more-btn">
-              <NavLink to="/exam">
-                더보기
-                <TbArrowRight />
-              </NavLink>
-            </div>
-          </SwiperSlide>
-        </Swiper>
-      </section>
+          </Swiper>
+        </section>
+      )}
       <Footer />
     </MainPage>
   );

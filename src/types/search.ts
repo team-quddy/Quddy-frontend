@@ -1,5 +1,3 @@
-import { PK } from "./types";
-
 export const enum Sort {
   latest = "latest",
   popular = "popular",
@@ -17,6 +15,6 @@ export interface SearchOption {
   keyword: string; // 검색어
   target: TargetOption; // 검색어 적용 타겟
   sort: SortOption; // 정렬옵션
-  lastId: null | PK; // 최근 탐색 마지막 결과 id
+  page: number; // 페이지 번호
   size: number; // 페이지 사이즈
 }

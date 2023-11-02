@@ -1,23 +1,24 @@
-import { useParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
-import { useQuery } from "@tanstack/react-query";
-import { getExamById } from "../apis/Setter";
 import { TbBallpen, TbGitFork, TbLock, TbLockOpen, TbShare2, TbTrophy } from "react-icons/tb";
 import Footer from "../components/common/Footer/Footer";
 import ProblemViewStatAccordion from "../components/Setter/Problem/ProblemView/ProblemViewStatAccordion";
 import { useMemo } from "react";
+import { ExamDetailStatType, ProblemStatType } from "../types/types";
+import { onShareURL } from "../utils/event";
 
 const ExamDetail = () => {
   const id = useParams().id as string;
-  const query = useQuery(["examDetail", id], () => getExamById(id));
-  const { data } = query;
+  const data = useLoaderData() as ExamDetailStatType<ProblemStatType>;
+  const navigate = useNavigate();
 
   /** 템플릿 공유 이벤트 */
-  const onShareTemplate = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onShareTemplate = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+
     const url = `${import.meta.env.VITE_APP_CLIENT_URL}/template/${id}`;
-    navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(url);
 
     // TODO: 사용자에게 알림 제공
     alert("클립보드에 복사되었습니다!");
@@ -25,23 +26,16 @@ const ExamDetail = () => {
 
   /** 변경 이벤트 */
   const onModify = () => {
-    // TODO: edit 페이지와의 연동 이벤트 추가
+    navigate(`/edit?id=${id}`);
   };
 
   /** 문제집 응시 링크 공유 이벤트 */
-  const onShareExam = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    const url = `${import.meta.env.VITE_APP_CLIENT_URL}/solver/${id}`;
-    navigator.clipboard.writeText(url);
-
-    // TODO: 사용자에게 알림 제공
-    alert("클립보드에 응시링크가 복사되었습니다!");
-  };
+  const onShareExam = async (e: React.MouseEvent<HTMLButtonElement>) => onShareURL(e, `solver/exam/${id}`);
 
   /** 평균 점수 */
   const solverAvg: number = useMemo(() => {
-    if (!data) return 100;
-    let sum = data.problems.reduce((_sum, problem) => _sum + problem.correct, 0);
+    if (!data) return 0;
+    const sum = data.problems.reduce((_sum, problem) => _sum + problem.correct, 0);
 
     // 최대 소수점 1자리까지 보여줍니다
     return Math.round((sum / (data.total * data.cnt)) * 1000) / 10;
@@ -60,7 +54,7 @@ const ExamDetail = () => {
 
           <div className="info">
             <div className="info-area">
-              <h1>{data?.title || "-"}</h1>
+              <h1>{data?.title || "문제집 타이틀명"}</h1>
               <p className="isPublic">
                 {data?.isPublic ? (
                   <>
@@ -100,7 +94,7 @@ const ExamDetail = () => {
               <TbBallpen />
               <div>
                 <p className="title">응시자 수</p>
-                <p>{data?.total}</p>
+                <p>{data?.total || "-"}</p>
               </div>
             </div>
 
@@ -178,6 +172,23 @@ const ExamDetailComponent = styled.div`
       display: flex;
       flex-wrap: wrap;
 
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 12px;
+        width: calc(100% - 24px);
+        height: 100%;
+        pointer-events: none;
+        transition: backdrop-filter 100ms;
+        backdrop-filter: blur(4px) opacity(0);
+      }
+
+      &.loading::after {
+        backdrop-filter: blur(4px) opacity(1);
+        -webkit-backdrop-filter: blur(4px);
+      }
+
       & > .thumbnail {
         background-color: var(--color-light-gray);
         border-radius: 8px;
@@ -194,8 +205,9 @@ const ExamDetailComponent = styled.div`
           max-width: 100%;
           max-height: 100%;
           margin: auto;
-          &[src=""] {
-            display: none;
+          display: none;
+          &[src] {
+            display: block;
           }
         }
       }

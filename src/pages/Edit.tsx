@@ -2,11 +2,15 @@ import { TbCameraPlus, TbPlus } from "react-icons/tb";
 import { styled } from "styled-components";
 import BackBtn from "../components/common/BackBtn/BackBtn";
 import Toggle from "../components/common/Toggle/Toggle";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ExamEditType, ProblemKeyType } from "../types/types";
 import ProblemEditAccordion from "../components/Setter/Problem/ProblemEdit/ProblemEditAccordion";
-import { postExam } from "../apis/Setter";
+import { getInitialExamData, getUserInfo, postExam, putExam } from "../apis/Setter";
 import { compressImage } from "../utils/image";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useMutation, useQueries } from "@tanstack/react-query";
+import Regist from "../components/common/Regist/Regist";
+import LoadingPage from "../components/common/Loading/LoadingPage";
 
 const Edit = () => {
   const [data, setData] = useState<ExamEditType<ProblemKeyType>>({
@@ -19,7 +23,40 @@ const Edit = () => {
     id: "",
     problems: [],
   });
+  const [openRegister, setOpenRegister] = useState<boolean>(true);
   const [problemCnt, setProblemCnt] = useState<number>(0);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const results = useQueries({
+    queries: [
+      { queryKey: ["checkUser"], queryFn: getUserInfo, retry: false, onError: () => setOpenRegister(false) },
+      {
+        queryKey: ["initExam"],
+        queryFn: async () => {
+          const initialData = await getInitialExamData(searchParams.get("id"), searchParams.get("template"));
+          setData(initialData);
+          setProblemCnt(initialData.problems.length);
+          return initialData;
+        },
+      },
+    ],
+  });
+
+  const mutation = useMutation(async () => {
+    let id = data.id;
+
+    // case 1: 문제집 id 없음(POST)
+    if (id) id = await postExam(data);
+    else if (searchParams.get("template")) id = await postExam(data);
+    // case 2: 문제집 id 있음(PUT)
+    else id = await putExam(id, data);
+    navigate(`/exam/${id}`);
+  });
+
+  const loading = useMemo(() => {
+    return results[1].status === "loading" || mutation.status === "loading";
+  }, [results, mutation.status]);
 
   // 썸네일 변경 이벤트
   const onChangeThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,13 +162,7 @@ const Edit = () => {
     });
 
     if (!pass) return;
-
-    // TODO: 문제집 id 유무에 따른 요청 처리
-    // case 1: 문제집 id 있음(PUT)
-    if (!data.id) {
-      await postExam(data);
-    }
-    // case 2: 문제집 id 없음(POST)
+    mutation.mutate();
   };
 
   return (
@@ -193,6 +224,9 @@ const Edit = () => {
       <button type="button" className="submit-btn" onClick={onSubmit}>
         출제하기
       </button>
+
+      {loading ? <LoadingPage /> : undefined}
+      <Regist initialVsibility={openRegister} />
     </EditComponent>
   );
 };

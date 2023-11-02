@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import GuideBanner from "../assets/imgs/guide_banner.png";
 import useSearch from "../hooks/useSearch";
-import { ExamTemplateType, PK } from "../types/types";
+import { ExamTemplateType } from "../types/types";
 import { getExamTemplateList } from "../apis/Setter";
 import SearchInput from "../components/common/Search/SearchInput";
 import SearchSorter from "../components/common/Search/SearchSorter";
@@ -12,27 +12,26 @@ import { useEffect, useState } from "react";
 import { ResponseListType } from "../types/response";
 import { throttle } from "lodash";
 import TopBtn from "../components/common/TopBtn/TopBtn";
+import TemplateEmpty from "../components/Setter/Template/TemplateEmpty/TemplateEmpty";
 
 const Template = () => {
   const [list, setList] = useState<ExamTemplateType[]>([]);
-  const [lastId, setLastId] = useState<PK | null>(null);
   const [option, setOption, query] = useSearch<ResponseListType<ExamTemplateType>>(getExamTemplateList);
   const { keyword, sort } = option;
 
   // 검색 결과 변경 시 리스트 초기화(로딩 표기용)
   useEffect(() => {
-    if (query.status === "loading" && !option.lastId) setList([]);
-  }, [query.status, option.lastId]);
+    if (query.status === "loading" && option.page == 0) setList([]);
+  }, [query.status, option.page]);
 
   // 요청 결과를 list에 저장
   useEffect(() => {
     if (!query.data) return;
-    if (!option.lastId) setList([...query.data.list]);
+    if (query.data.page === 0) setList(query.data.list);
     else setList((pre) => [...pre, ...query.data.list]);
-    setLastId(query.data.lastId);
-  }, [option.lastId, query.data]);
+  }, [query.data]);
 
-  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, lastId })), 1000);
+  const setOptionThrottle = throttle(() => setOption((pre) => ({ ...pre, page: option.page + 1 })), 1000);
 
   // 스크롤 이벤트
   const onScroll = (e: React.UIEvent) => {
@@ -54,14 +53,14 @@ const Template = () => {
         <section>
           <SearchInput
             search={keyword}
-            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, lastId: null }))}
+            setSearch={(keyword) => setOption((pre) => ({ ...pre, keyword, page: 0 }))}
             placeholder="관심있는 키워드를 검색해보세요"
           />
 
           {/* 헤더 */}
           <div className="header">
             <h1>문제집 템플릿</h1>
-            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, lastId: null }))} />
+            <SearchSorter option={sort} setOption={(sort) => setOption((pre) => ({ ...pre, sort, page: 0 }))} />
           </div>
 
           {/* 템플릿 목록 */}
@@ -75,13 +74,17 @@ const Template = () => {
           <div className={`loading ${query.status === "loading" ? "visible" : ""}`}>
             <Loading />
           </div>
+
+          {query.status !== "loading" && !list.length ? <TemplateEmpty /> : undefined}
+
           {list.length && query.data && query.data.list.length < option.size ? (
             <p className="endline">목록의 마지막입니다</p>
           ) : undefined}
         </section>
       </div>
       <TopBtn />
-      <Footer />
+
+      {query.status === "loading" || <Footer />}
     </TemplateComponent>
   );
 };
@@ -95,6 +98,10 @@ const TemplateComponent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  & > div:first-child {
+    flex: 1 1 0;
+  }
 
   & .guide-banner {
     width: 100%;

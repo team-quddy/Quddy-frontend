@@ -12,7 +12,7 @@ const ExamTemplateItem = ({ exam }: Props) => {
   const navigate = useNavigate();
 
   const onMoveDetail = () => {
-    navigate(exam.id);
+    navigate(`/template/${exam.id}`);
   };
 
   return (
