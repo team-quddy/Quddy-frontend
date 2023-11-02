@@ -61,6 +61,7 @@ const TopNavComponent = styled.div`
     margin-bottom: 8px;
   }
   & button {
+    color: var(--color-theme);
     background: none;
     margin: 0 8px;
     border: none;
