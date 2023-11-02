@@ -12,7 +12,7 @@ const SolverExam = () => {
   const id = useParams().id as string;
   const exam = useLoaderData() as SolverExamType<SolverProblemType>;
   const length = exam.problems.length;
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [answer, setAnswer] = useState<SolverProblemAnsType[]>([]);
   const navigate = useNavigate();
   const mutation = useMutation(() => postSolverExam(id, answer), {
