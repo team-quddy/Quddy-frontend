@@ -39,8 +39,12 @@ const SolverExamProblemPage = ({ exam, preAns, idx, onMoveNextProblem, onMovePre
         <h2 className="question">{problem.question}</h2>
 
         <div className="example">
-          {problem.exImg && <img src={problem.exImg} alt="보기 이미지" />}
-          {problem.exText && <div>{problem.exText}</div>}
+          {problem.exImg && (
+            <div className="img">
+              <img src={problem.exImg} alt="보기 이미지" />
+            </div>
+          )}
+          {problem.exText && <div className="text">{problem.exText}</div>}
         </div>
 
         {problem.isObjective ? (
@@ -108,16 +112,22 @@ const ExamPageComponent = styled.div`
 
     & > .example {
       margin-bottom: 16px;
-      & > div {
+      & > .text {
         border: 1px solid var(--color-text);
         line-height: 20px;
         padding: 16px;
       }
-      & > img {
+      & > .img {
         background-color: var(--color-gray);
         min-height: 200px;
+        max-height: 320px;
         width: 100%;
         height: 100%;
+        & > img {
+          max-width: 100%;
+          max-height: 100%;
+          margin: auto;
+        }
       }
     }
 
