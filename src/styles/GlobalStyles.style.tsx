@@ -23,6 +23,9 @@ const GlobalStyles = createGlobalStyle`
     *{
         box-sizing: border-box;
     }
+    *:focus {
+        outline: 2px solid var(--color-background);
+    }
     a{
         text-decoration: none;
         color: inherit;
