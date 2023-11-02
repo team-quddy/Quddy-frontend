@@ -21,8 +21,13 @@ export interface ResponseProblemStatType extends ProblemStatType {
 }
 
 export interface ResponseSolverExamType {
-  id: PK | null;
+  id?: PK;
   exam: SolverExamType<SolverProblemType>;
+}
+
+export interface ResponseSolverProblemType extends SolverProblemType {
+  objective?: boolean;
+  opt: null | string;
 }
 
 export interface ResponseSolverExamResultType {
