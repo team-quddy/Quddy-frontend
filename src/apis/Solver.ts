@@ -48,6 +48,6 @@ export async function getSolverExamResultById(id: PK): Promise<ResponseSolverExa
  * @returns
  */
 export async function postSolverExam(id: PK, problems: SolverProblemAnsType[]): Promise<SolverExamResultType> {
-  const { data } = await getInstance().post(`/solver/exam/${id}`, { id, problems });
+  const { data } = await getInstance().post(`/solver/exam`, { id, problems });
   return data;
 }
