@@ -9,6 +9,8 @@ import { PK, SolverExamResultType, SolverProblemAnsType, SolverProblemType } fro
  */
 export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType> {
   const { data } = await getInstance().get(`/solver/exam/${id}`);
+  // id가 존재하는 경우 그대로 반환
+  if (data.id) return data;
 
   const problems: SolverProblemType[] = data.exam.problems.map((item: ResponseSolverProblemType) => {
     if (item.objective !== undefined) item.isObjective = item.objective;
@@ -16,8 +18,6 @@ export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType>
   });
 
   data.exam.problems = problems;
-
-  console.log(data);
 
   // const problems = SampleProblemList.map((item, idx) => ({ ...item, id: `${id}-${idx}` }));
   // const data: ResponseSolverExamType = {
