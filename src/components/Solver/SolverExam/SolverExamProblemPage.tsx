@@ -149,6 +149,7 @@ const ExamPageComponent = styled.div`
         border-radius: 4px;
         background-color: var(--color-primary);
         opacity: 0.125;
+        pointer-events: none;
       }
       &[data-ans=""]::before {
         opacity: 0;
