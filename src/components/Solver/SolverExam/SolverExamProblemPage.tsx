@@ -11,7 +11,7 @@ interface Props {
   preAns: string;
   idx: number;
   onMoveNextProblem(idx: number, ans: string): void;
-  onMovePreProblem(): void;
+  onMovePreProblem(idx: number, ans: string): void;
 }
 
 const SolverExamProblemPage = ({ exam, preAns, idx, onMoveNextProblem, onMovePreProblem }: Props) => {
@@ -24,6 +24,10 @@ const SolverExamProblemPage = ({ exam, preAns, idx, onMoveNextProblem, onMovePre
 
   const onClickNextBtn = () => {
     onMoveNextProblem(idx, ans);
+  };
+
+  const onClickPreBtn = () => {
+    onMovePreProblem(idx, ans);
   };
 
   const onChangeAns = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +70,7 @@ const SolverExamProblemPage = ({ exam, preAns, idx, onMoveNextProblem, onMovePre
 
       <div className="page">
         {idx === 0 || (
-          <button type="button" onClick={onMovePreProblem} className="pre-btn">
+          <button type="button" onClick={onClickPreBtn} className="pre-btn">
             <TbArrowLeft />
           </button>
         )}
