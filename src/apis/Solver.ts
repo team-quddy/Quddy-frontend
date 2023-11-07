@@ -1,6 +1,6 @@
 import getInstance from ".";
-import { ResponseSolverExamResultType, ResponseSolverExamType } from "../types/response";
-import { PK, SolverExamResultType, SolverProblemAnsType } from "../types/types";
+import { ResponseSolverExamResultType, ResponseSolverExamType, ResponseSolverProblemType } from "../types/response";
+import { PK, SolverExamResultType, SolverProblemAnsType, SolverProblemType } from "../types/types";
 
 /**
  * [GET] 응시자 시험 정보 요청
@@ -9,6 +9,15 @@ import { PK, SolverExamResultType, SolverProblemAnsType } from "../types/types";
  */
 export async function getSolverExamById(id: PK): Promise<ResponseSolverExamType> {
   const { data } = await getInstance().get(`/solver/exam/${id}`);
+
+  const problems: SolverProblemType[] = data.exam.problems.map((item: ResponseSolverProblemType) => {
+    if (item.objective !== undefined) item.isObjective = item.objective;
+    return { ...item, opt: item.opt ? JSON.parse(item.opt) : null };
+  });
+
+  data.exam.problems = problems;
+
+  console.log(data);
 
   // const problems = SampleProblemList.map((item, idx) => ({ ...item, id: `${id}-${idx}` }));
   // const data: ResponseSolverExamType = {

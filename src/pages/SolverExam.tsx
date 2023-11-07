@@ -39,7 +39,11 @@ const SolverExam = () => {
     });
     setPage((pre) => pre + 1);
   };
-  const onMovePreProblem = () => {
+  const onMovePreProblem = (idx: number, ans: string) => {
+    setAnswer((pre) => {
+      pre[idx].answer = ans;
+      return [...pre];
+    });
     setPage((pre) => pre - 1);
   };
 
