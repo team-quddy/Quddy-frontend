@@ -48,7 +48,7 @@ const Edit = () => {
 
     // case 1: 문제집 id 없음(POST)
     if (id) id = await putExam(id, data);
-    else if (searchParams.get("template")) id = await postExam(data);
+    else if (searchParams.get("template")) id = await postExam({ ...data, ref: id });
     // case 2: 문제집 id 있음(PUT)
     else id = await postExam(data);
     navigate(`/exam/${id}`);
