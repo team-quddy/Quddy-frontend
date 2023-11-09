@@ -17,6 +17,8 @@ import {
   UserInfoType,
 } from "../types/types";
 
+import SampleProblemList from "./sample/Problem.json";
+
 /**
  * [GET] 유저 정보 요청
  * @returns
@@ -41,6 +43,14 @@ export async function postCreateUser(nickname: string): Promise<void> {
 export async function getTestApi() {
   const res = await getInstance().get("");
   console.dir(res);
+}
+
+/**
+ * [GET] 랜덤 문제 요청
+ */
+export async function getRandomProblem() {
+  const ranIdx = Math.round(Math.random() * +SampleProblemList.length) - 1;
+  return SampleProblemList[ranIdx];
 }
 
 /**
