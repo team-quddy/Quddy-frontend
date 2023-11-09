@@ -13,7 +13,8 @@ const ProblemEditOption = ({ problem, setProblem }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
 
   // 정답 방식 변경 이벤트
-  const onChangeObjective = (isObjective: boolean) => {
+  const onChangeObjective = () => {
+    let isObjective = problem.isObjective;
     const opt = ["", "", "", ""];
     const answer = isObjective ? "" : "0";
     isObjective = !isObjective;

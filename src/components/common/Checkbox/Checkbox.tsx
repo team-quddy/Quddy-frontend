@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 interface Props {
   value: boolean;
-  setValue(bool: boolean): void;
+  setValue(bool?: boolean): void;
   id: string;
   label?: string;
 }

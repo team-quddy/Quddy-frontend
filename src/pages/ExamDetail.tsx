@@ -129,6 +129,8 @@ const ExamDetail = () => {
               </div>
             ))}
           </div>
+
+          {Boolean(data.total) || <div className="blur">아직 문제집을 푼 사람이 없어요!</div>}
         </section>
 
         {/* 문제집 문제 목록 */}
@@ -298,6 +300,7 @@ const ExamDetailComponent = styled.div`
 
     & > section.stat {
       margin-top: 28px;
+      position: relative;
 
       & > h2 {
         font-size: 16px;
@@ -404,6 +407,19 @@ const ExamDetailComponent = styled.div`
             color: var(--color-primary);
           }
         }
+      }
+
+      & > .blur {
+        position: absolute;
+        font-size: 14px;
+        top: 24px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ffffff80;
+        backdrop-filter: blur(4px) opacity(1);
       }
     }
 

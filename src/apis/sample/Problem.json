@@ -1,6 +1,6 @@
 [
   {
-    "question": "다음 중 한유경(이)가 먹지 않는 음식은?",
+    "question": "다음 중 출제자가 먹지 않는 음식은?",
     "isObjective": true,
     "opt": ["카레 속 당근", "치킨무", "시금치", "샤브샤브 야채"],
     "exImg": "",
@@ -8,35 +8,67 @@
     "answer": "1"
   },
   {
-    "question": "한유경의 생일은?(YYYY-MM-DD)",
+    "question": "출제자의 생일은?(YYYY-MM-DD)",
     "isObjective": false,
     "opt": null,
     "exImg": "",
     "exText": "",
-    "answer": "1999-03-12"
+    "answer": "1999-01-01"
   },
   {
-    "question": "다음 중 한유경이 한 말이 주로 의미하는 것은?",
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
     "isObjective": true,
-    "opt": ["동의한다", "어이없다", "뿌듯하다", "싫다"],
+    "opt": ["평생동안 양치 안하기", "평생동안 샤워 안하기", "", ""],
     "exImg": "",
-    "exText": "ㅎㅎ",
-    "answer": "3"
+    "exText": "평생동안 양치 안하기 VS 평생동안 샤워 안하기",
+    "answer": "0"
   },
   {
-    "question": "해당 캐릭터의 이름은?",
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
+    "isObjective": true,
+    "opt": ["자는데 모기소리 들리기(물리지는 않음)", "소리는 없는데 모기에 물리기", "", ""],
+    "exImg": "",
+    "exText": "자는데 모기소리 들리기(물리지는 않음) vs 소리는 없는데 모기에 물리기",
+    "answer": "0"
+  },
+  {
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
+    "isObjective": true,
+    "opt": ["잠수이별", "환승이별", "", ""],
+    "exImg": "",
+    "exText": "잠수이별 vs 환승이별",
+    "answer": "0"
+  },
+  {
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
+    "isObjective": true,
+    "opt": ["평생 탄산 안 마시기", "평생 라면 못 먹기", "", ""],
+    "exImg": "",
+    "exText": "평생 탄산 안 마시기 vs 평생 라면 못 먹기",
+    "answer": "0"
+  },
+  {
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
+    "isObjective": true,
+    "opt": ["요구르트에 김치 말아먹기", "라면에 초콜릿 넣기", "", ""],
+    "exImg": "",
+    "exText": "요구르트에 김치 말아먹기 vs 라면에 초콜릿 넣기",
+    "answer": "0"
+  },
+  {
+    "question": "[밸런스게임]출제자의 선택을 맞추시오",
+    "isObjective": true,
+    "opt": ["똥 안 먹었는데 먹었다고 소문나기", "진짜로 먹었는데 아무도 모르기", "", ""],
+    "exImg": "",
+    "exText": "똥 안 먹었는데 먹었다고 소문나기(전 세계 사람들이 다 알고 있음) vs 진짜로 먹었는데 아무도 모르기",
+    "answer": "0"
+  },
+  {
+    "question": "양념치킨 VS 후라이드",
     "isObjective": false,
     "opt": null,
-    "exImg": "https://picsum.photos/360/240",
+    "exImg": "",
     "exText": "",
-    "answer": "큐디"
-  },
-  {
-    "question": "테스트 문제입니다.",
-    "isObjective": true,
-    "opt": ["", "", "", ""],
-    "exImg": "https://picsum.photos/240/360",
-    "exText": "테스트 텍스트",
-    "answer": "2"
+    "answer": "양념치킨"
   }
 ]
