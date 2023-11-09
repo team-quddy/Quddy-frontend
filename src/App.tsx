@@ -17,6 +17,7 @@ function App() {
 
 const AppComponent = styled.div`
   padding: 48px 0 0;
+  overflow: visible;
 `;
 
 export default App;
