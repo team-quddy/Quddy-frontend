@@ -11,6 +11,7 @@ import { throttle } from "lodash";
 import { NavLink, useLoaderData, useParams } from "react-router-dom";
 import { ResponseSolverExamResultType } from "../types/response";
 import { onShareURL } from "../utils/event";
+import { Helmet } from "react-helmet-async";
 
 const SolverResult = () => {
   const id = useParams().id;
@@ -45,6 +46,11 @@ const SolverResult = () => {
 
   return (
     <SolverResultComponent>
+      <Helmet>
+        <title>{exam.title} 응시결과</title>
+        <meta property="og:image" content="%PUBLIC_URL%/thumnail3.png" />
+      </Helmet>
+
       <h1>채점 결과</h1>
       <section className="result" id="result">
         {downloadImgMutation.status === "loading" && <LoadingPage />}

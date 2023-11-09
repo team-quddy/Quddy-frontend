@@ -7,6 +7,7 @@ import SolverExamProblemPage from "../components/Solver/SolverExam/SolverExamPro
 import LoadingPage from "../components/common/Loading/LoadingPage";
 import { useMutation } from "@tanstack/react-query";
 import { postSolverExam } from "../apis/Solver";
+import { Helmet } from "react-helmet-async";
 
 const SolverExam = () => {
   const id = useParams().id as string;
@@ -49,8 +50,13 @@ const SolverExam = () => {
 
   return (
     <SolverExamComponent>
+      <Helmet>
+        <title>{exam.title} - 큐디고사 시험장</title>
+        <meta property="og:image" content="%PUBLIC_URL%/thumnail2.png" />
+      </Helmet>
+
       {page === 0 || page > length ? (
-        <h1>우정고사 시험장</h1>
+        <h1>큐디고사 시험장</h1>
       ) : (
         <h1>
           {page}문제 <span>/ {length}문제</span>
