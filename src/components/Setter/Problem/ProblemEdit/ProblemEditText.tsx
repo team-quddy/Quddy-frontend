@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { TbTextPlus, TbX } from "react-icons/tb";
 import { styled } from "styled-components";
 import { StretchHeightEvent } from "../../../../types/event";
@@ -12,6 +12,11 @@ interface Props {
 const ProblemEditText = ({ problem, setProblem }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [edit, setEdit] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (problem.exText && !edit) onActiveEdit();
+    else if (!problem.exText && edit) onInactiveEdit();
+  }, [problem.exText]);
 
   // 보기 텍스트 활성화 이벤트
   const onActiveEdit = () => {

@@ -5,6 +5,7 @@ import { ProblemKeyType } from "../../../../types/types";
 import ProblemEditText from "./ProblemEditText";
 import ProblemEditImage from "./ProblemEditImage";
 import ProblemEditOption from "./ProblemEditOption";
+import { getRandomProblem } from "../../../../apis/Setter";
 
 interface Props {
   no: number;
@@ -18,6 +19,12 @@ const ProblemEditAccordion = ({ no, problem, setProblem, removeProblem }: Props)
   const onChangeQuestion = (e: React.ChangeEvent<HTMLInputElement>) => {
     const question = e.target.value;
     setProblem({ ...problem, question });
+  };
+
+  // 랜덤 문제 생성 이벤트
+  const onRandomProblem = async () => {
+    const randomProblem = await getRandomProblem();
+    setProblem({ ...problem, ...randomProblem });
   };
 
   // 문제 삭제 이벤트
@@ -42,7 +49,7 @@ const ProblemEditAccordion = ({ no, problem, setProblem, removeProblem }: Props)
         <div className="content">
           <h3>문제 설정</h3>
           <div className="management-area">
-            <button type="button">
+            <button type="button" onClick={onRandomProblem}>
               <TbArrowsShuffle /> 랜덤 문제 가져오기
             </button>
             <button type="button" onClick={onRemoveProblem}>
